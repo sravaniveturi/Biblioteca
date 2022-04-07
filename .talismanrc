@@ -1,0 +1,5 @@
+fileignoreconfig:
+- filename: src/main/resources/data.sql
+  checksum: 533b33d220fb110753bab3e1252fb3c57cf5dc54294fffda0c029026ba9ec768
+- filename: src/main/resources/db/migration/V1__create_books_table.sql
+  checksum: 468e834c9dba9382edb45cec18d068afe91466a4a5ab532f739dadfc8af8c161
