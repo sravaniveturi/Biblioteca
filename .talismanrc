@@ -1,4 +1,6 @@
 fileignoreconfig:
+- filename: src/main/java/com/tw/vapsi/biblioteca/model/User.java
+  checksum: 20e82fafdab0dbbba3edd62e4df3c91d69dd95b1b4b6fcc9a54d6627739eacc6
 - filename: src/main/resources/data.sql
   checksum: 533b33d220fb110753bab3e1252fb3c57cf5dc54294fffda0c029026ba9ec768
 - filename: src/main/resources/db/migration/V1__create_books_table.sql
