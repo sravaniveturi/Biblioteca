@@ -2,7 +2,7 @@ fileignoreconfig:
 - filename: src/main/java/com/tw/vapsi/biblioteca/model/User.java
   checksum: 5c2e65e93ac93fbedb5ea39e10bd622af21cb12e87cdfde09641372937ea952f
 - filename: src/main/java/com/tw/vapsi/biblioteca/service/dto/UserDetailsDTO.java
-  checksum: 0f57d56bbc143b8b9939ed2c32ec96266015cbefcb3e086d5b84978a58a385a5
+  checksum: f857d90c0eb2f9e45788e01245aaa0d0dc2a17974af79082e19942d50d4f0e97
 - filename: src/main/resources/data.sql
   checksum: 533b33d220fb110753bab3e1252fb3c57cf5dc54294fffda0c029026ba9ec768
 - filename: src/main/resources/db/migration/V1__create_books_table.sql

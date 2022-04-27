@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class UserDetailsDTO implements UserDetails {
 
@@ -64,5 +65,21 @@ public class UserDetailsDTO implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDetailsDTO that = (UserDetailsDTO) o;
+        boolean hasSameName = Objects.equals(userName, that.userName);
+        boolean hasSamePassword = Objects.equals(password, that.password);
+        boolean hasSameAuthorities = Objects.equals(authorities, that.authorities);
+        return hasSameName && hasSamePassword && hasSameAuthorities;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName, password, authorities);
     }
 }
