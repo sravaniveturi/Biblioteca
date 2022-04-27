@@ -1,6 +1,6 @@
 fileignoreconfig:
 - filename: src/main/java/com/tw/vapsi/biblioteca/model/User.java
-  checksum: 20e82fafdab0dbbba3edd62e4df3c91d69dd95b1b4b6fcc9a54d6627739eacc6
+  checksum: 5c2e65e93ac93fbedb5ea39e10bd622af21cb12e87cdfde09641372937ea952f
 - filename: src/main/java/com/tw/vapsi/biblioteca/service/dto/UserDetailsDTO.java
   checksum: 0f57d56bbc143b8b9939ed2c32ec96266015cbefcb3e086d5b84978a58a385a5
 - filename: src/main/resources/data.sql
