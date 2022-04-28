@@ -10,24 +10,27 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserService userService;
 
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(userRepository);
+        userService = new UserService(userRepository, bCryptPasswordEncoder);
     }
 
     @Test
@@ -49,7 +52,35 @@ class UserServiceTest {
     void shouldThrowUserNotFoundException() {
         when(userRepository.findByEmail("email@example.com")).thenReturn(Optional.empty());
 
-        UsernameNotFoundException actualException = assertThrows(UsernameNotFoundException.class, () -> userService.loadUserByUsername("email@example.com"));
+        UsernameNotFoundException actualException = assertThrows(
+                UsernameNotFoundException.class,
+                () -> userService.loadUserByUsername("email@example.com")
+        );
+
         assertEquals("No user exists with username : email@example.com", actualException.getMessage());
+    }
+
+    @Test
+    void shouldSaveTheUserInformation() {
+        User userToBeCreated = new User(
+                "Micky",
+                "Mouse",
+                "micky-mouse@example.com",
+                "encoded-password");
+
+
+        User expectedUser = new User(
+                1L,
+                "Micky",
+                "Mouse",
+                "micky-mouse@example.com",
+                "encoded-password");
+        when(userRepository.save(userToBeCreated)).thenReturn(expectedUser);
+        when(bCryptPasswordEncoder.encode("password")).thenReturn("encoded-password");
+
+        User actualUser = userService.save("Micky", "Mouse", "micky-mouse@example.com", "password");
+
+        assertEquals(expectedUser, actualUser);
+        verify(userRepository, times(1)).save(userToBeCreated);
     }
 }

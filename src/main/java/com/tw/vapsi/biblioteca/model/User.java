@@ -1,6 +1,7 @@
 package com.tw.vapsi.biblioteca.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -24,6 +25,14 @@ public class User {
 
     public User() {
 
+    }
+
+    public User(String firstName, String lastName, String email, String password) {
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
     }
 
     public long getId() {
@@ -64,5 +73,23 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        boolean areIdsEquals = id == user.id;
+        boolean isFirstNameEqual = firstName.equals(user.firstName);
+        boolean isLastNameEqual = lastName.equals(user.lastName);
+        boolean isEmailEqual = email.equals(user.email);
+        boolean isPasswordEqual = password.equals(user.password);
+        return areIdsEquals && isFirstNameEqual && isLastNameEqual && isEmailEqual && isPasswordEqual;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, email, password);
     }
 }
