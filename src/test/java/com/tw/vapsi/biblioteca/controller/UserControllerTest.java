@@ -2,6 +2,7 @@ package com.tw.vapsi.biblioteca.controller;
 
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,38 +21,50 @@ class UserControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private UserService userService;
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String password;
+
+    @BeforeEach
+    void setUp() {
+        email = "test-mail@test.com";
+        firstName = "Micky";
+        lastName = "Mouse";
+        password = "password@123";
+    }
 
     @Test
     void shouldCreateAUserWithTheProvidedDetails() throws Exception {
-        User user = new User(1L, "Micky", "Mouse", "test-mail@test.com", "password");
-        when(userService.save("Micky", "Mouse", "test-mail@test.com", "password"))
+        User user = new User(1L, firstName, lastName, email, password);
+        when(userService.save(firstName, lastName, email, password))
                 .thenReturn(user);
 
         mockMvc.perform(post("/users")
-                        .param("firstName", "Micky")
-                        .param("lastName", "Mouse")
-                        .param("email", "test-mail@test.com")
-                        .param("password", "password")
+                        .param("firstName", firstName)
+                        .param("lastName", lastName)
+                        .param("email", email)
+                        .param("password", password)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.firstName").value("Micky"))
-                .andExpect(jsonPath("$.lastName").value("Mouse"))
-                .andExpect(jsonPath("$.email").value("test-mail@test.com"));
+                .andExpect(jsonPath("$.firstName").value(firstName))
+                .andExpect(jsonPath("$.lastName").value(lastName))
+                .andExpect(jsonPath("$.email").value(email));
     }
 
     @Test
     void shouldNotCreateUserWhenFirstNameIsMissing() throws Exception {
 
         mockMvc.perform(post("/users")
-                        .param("lastName", "Mouse")
-                        .param("email", "test-mail@test.com")
-                        .param("password", "password")
+                        .param("lastName", lastName)
+                        .param("email", email)
+                        .param("password", password)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
                 .andExpect(status()
-                        .reason("Required request parameter 'firstName' for method parameter type String is not present")
+                        .reason(createReasonFor("firstName"))
                 );
         verify(userService, never()).save(anyString(), anyString(), anyString(), anyString());
     }
@@ -61,13 +74,13 @@ class UserControllerTest {
     void shouldNotCreateUserWhenLastNameIsMissing() throws Exception {
 
         mockMvc.perform(post("/users")
-                        .param("firstName", "Micky")
-                        .param("email", "test-mail@test.com")
-                        .param("password", "password")
+                        .param("firstName", firstName)
+                        .param("email", email)
+                        .param("password", password)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
                 .andExpect(status()
-                        .reason("Required request parameter 'lastName' for method parameter type String is not present")
+                        .reason(createReasonFor("lastName"))
                 );
         verify(userService, never()).save(anyString(), anyString(), anyString(), anyString());
     }
@@ -76,13 +89,13 @@ class UserControllerTest {
     void shouldNotCreateUserWhenEmailIsMissing() throws Exception {
 
         mockMvc.perform(post("/users")
-                        .param("firstName", "Micky")
-                        .param("lastName", "Mouse")
-                        .param("password", "password")
+                        .param("firstName", firstName)
+                        .param("lastName", lastName)
+                        .param("password", password)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
                 .andExpect(status()
-                        .reason("Required request parameter 'email' for method parameter type String is not present")
+                        .reason(createReasonFor("email"))
                 );
         verify(userService, never()).save(anyString(), anyString(), anyString(), anyString());
     }
@@ -91,14 +104,18 @@ class UserControllerTest {
     void shouldNotCreateUserWhenPasswordIsMissing() throws Exception {
 
         mockMvc.perform(post("/users")
-                        .param("firstName", "Micky")
-                        .param("lastName", "Mouse")
-                        .param("email", "test-mail@test.com")
+                        .param("firstName", firstName)
+                        .param("lastName", lastName)
+                        .param("email", email)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError())
                 .andExpect(status()
-                        .reason("Required request parameter 'password' for method parameter type String is not present")
+                        .reason(createReasonFor("password"))
                 );
         verify(userService, never()).save(anyString(), anyString(), anyString(), anyString());
+    }
+
+    private String createReasonFor(String parameterName) {
+        return "Required request parameter '" + parameterName + "' for method parameter type String is not present";
     }
 }
