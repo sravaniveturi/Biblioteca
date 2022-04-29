@@ -1,4 +1,6 @@
 fileignoreconfig:
+- filename: src/main/java/com/tw/vapsi/biblioteca/configuration/WebSecurityConfig.java
+  checksum: e7e1b1b7e3344a2d9cde7aa23bfa683c0ee7279da546f0773c78ee16fd4f6224
 - filename: src/main/java/com/tw/vapsi/biblioteca/model/User.java
   checksum: bcaa3b55d6cf869769c2718cc4e03ad8b7a137bed4dc74c3442b87cd77c544e0
 - filename: src/main/java/com/tw/vapsi/biblioteca/service/UserService.java
@@ -9,5 +11,7 @@ fileignoreconfig:
   checksum: 533b33d220fb110753bab3e1252fb3c57cf5dc54294fffda0c029026ba9ec768
 - filename: src/main/resources/db/migration/V1__create_books_table.sql
   checksum: a649b4128d3295d725423dac3fc2ebf5a558b1bb7724cefd53c4d21436ca4c0d
+- filename: src/main/resources/templates/login.html
+  checksum: efa10cbef0a039d2a1f9e36ef90f932673f171d731e19fa20e836a59c50c95c2
 - filename: src/test/java/com/tw/vapsi/biblioteca/controller/UserControllerTest.java
   checksum: da3f245ab985f76ff98a59d72e031d745aa7e51a64bf826db5646271584a3077
