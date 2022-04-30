@@ -1,11 +1,9 @@
 package com.tw.vapsi.biblioteca.controller;
 
-import com.tw.vapsi.biblioteca.service.UserService;
+import com.tw.vapsi.biblioteca.controller.helper.ControllerTestHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -13,11 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = LoginController.class)
-class LoginControllerTest {
-    @MockBean
-    private UserService userService;
-    @MockBean
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+class LoginControllerTest extends ControllerTestHelper {
+
     @Autowired
     private MockMvc mockMvc;
 

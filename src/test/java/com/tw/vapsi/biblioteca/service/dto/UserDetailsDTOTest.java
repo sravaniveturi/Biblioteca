@@ -28,9 +28,9 @@ class UserDetailsDTOTest {
         assertEquals("email@example.com", userDetails.getUsername());
         assertEquals("password", userDetails.getPassword());
         assertEquals(simpleGrantedAuthorities, userDetails.getAuthorities());
-        assertFalse(userDetails.isAccountNonExpired());
+        assertTrue(userDetails.isAccountNonExpired());
         assertTrue(userDetails.isAccountNonLocked());
         assertTrue(userDetails.isEnabled());
-        assertFalse(userDetails.isCredentialsNonExpired());
+        assertTrue(userDetails.isCredentialsNonExpired());
     }
 }
