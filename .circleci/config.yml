@@ -1,0 +1,36 @@
+version: 2.1
+
+workflows:
+  version: 2
+  build_and_test_deployQA_approval_deployProd:
+    jobs:
+      - build
+      - package:
+          requires:
+            - build
+      - deployToDev:
+          requires:
+            - package
+      - hold:
+          type: approval
+          requires:
+            - build
+
+      - deployToProd:
+          requires:
+            - hold
+
+
+jobs:
+  build:
+    docker:
+      - image: gradle:alpine
+    steps:
+      - checkout
+      - run: ./gradlew bootJar
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - build/
+            - .gradle/
+
