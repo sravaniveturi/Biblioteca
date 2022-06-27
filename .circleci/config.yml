@@ -9,7 +9,7 @@ workflows:
 jobs:
   build:
     docker:
-      - image: gradle:alpine
+      - image: circleci/openjdk:8-jdk
     steps:
       - checkout
       - run: ./gradlew bootJar
