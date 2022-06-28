@@ -5,8 +5,11 @@ workflows:
   build_and_test:
     jobs:
       - build
+          name:buildstep
       - test
       - deployToStage
+           requires:
+            - buildstep
 
 
 jobs:
@@ -38,5 +41,4 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
       - run: docker build --iidfile image.txt -f Dockerfile . -t teamd
-    requires:
-      - build
+
