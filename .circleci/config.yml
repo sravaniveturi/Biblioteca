@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  heroku: circleci/heroku@1.2.6
 
 workflows:
   version: 2
@@ -37,9 +39,13 @@ jobs:
       - image: cimg/base:stable # primary container will run the latest, production-ready base
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
-      - attach_workspace:
-          at: ./
-      - run: docker build --iidfile image.txt -f Dockerfile . -t teamd
+      - heroku/install
+      - heroku/deploy-via-git:
+         pre-steps:
+          - setup_remote_docker:
+              version: 20.10.14
+          - attach_workspace:
+              at: ./
+          - run: docker build --iidfile image.txt -f Dockerfile . -t teamd
+
 
