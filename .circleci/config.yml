@@ -37,13 +37,11 @@ jobs:
       - image: cimg/base:stable # primary container will run the latest, production-ready base
     steps:
       - checkout
-#      - heroku/install
       - setup_remote_docker:
-         version: 20.10.14
+          version: 20.10.14
       - attach_workspace:
-               at: ./
-       - run: docker build --iidfile image.txt -f Dockerfile . -t teamd
-#      - heroku/deploy-via-git:
+          at: ./
+      - run: docker build --iidfile image.txt -f Dockerfile . -t teamd
 
 
 
