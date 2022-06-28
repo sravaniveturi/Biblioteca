@@ -6,6 +6,7 @@ workflows:
     jobs:
       - build
       - test
+      - deployToStage
 
 jobs:
   build:
@@ -27,3 +28,8 @@ jobs:
       - run: ./gradlew test
       - store_test_results:
           path: build/test-results/
+
+  deployToStage:
+
+    steps:
+      - run: docker build --build-arg JAR_FILE=./build/libs/biblioteca-0.0.1-SNAPSHOT.jar -t teamD/biblioteca .
