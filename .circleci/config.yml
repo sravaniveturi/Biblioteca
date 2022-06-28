@@ -30,8 +30,8 @@ jobs:
           path: build/test-results/
 
   deployToStage:
-  docker: # executor type
-    - image: cimg/base:stable # primary container will run the latest, production-ready base 
+    docker: # executor type
+      - image: cimg/base:stable # primary container will run the latest, production-ready base
     steps:
       -  checkout
       - setup_remote_docker:
