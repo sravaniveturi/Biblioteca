@@ -5,6 +5,13 @@
     <title>Books</title>
 </head>
 <body>
+<form action="#" method="get" th:action="@{/books/find}" th:object="${book}">
+    <p>Id: <input type="text" th:field="*{name}"/></p>
+    <p>
+        <button type="submit" value="Search books">Search Books</button>
+    </p>
+</form>
+
 <table>
     <thead th:if="${not #lists.isEmpty(books)}">
     <tr>
@@ -29,6 +36,4 @@
     </tbody>
 </table>
 </body>
-
-
 </html>
