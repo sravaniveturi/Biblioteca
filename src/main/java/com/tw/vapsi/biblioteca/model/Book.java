@@ -1,4 +1,4 @@
-package com.tw.vapsi.nullioteca.model;
+package com.tw.vapsi.biblioteca.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
