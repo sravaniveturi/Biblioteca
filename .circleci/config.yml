@@ -5,10 +5,13 @@ workflows:
   build_and_test:
     jobs:
       - build
-  #    - test
+      - test
       - deployToStage:
            requires:
             - build
+      - build-deploy-heroku:
+          requires:
+            - deployToStage
 
 
 jobs:
@@ -43,27 +46,15 @@ jobs:
           at: ./
       - run: docker build --iidfile image.txt -f Dockerfile . -t teamd
 
-
-
-#version: 2.1
-#
-#workflows:
-#  build-deploy:
-#    jobs:
-#      - build-deploy
-#
-#jobs:
-#  build-deploy:
-#    machine: true
-#    steps:
-#      - checkout
-#      - attach_workspace:
-#          at: ./
-#      - run:
-#          name: Build and push Docker image to Heroku
-#          command: |
-#            set -x
-#            sudo curl https://cli-assets.heroku.com/install.sh | sh
-#            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
-#            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a biblioteca-stage web
-#            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a biblioteca-stage web
+  build-deploy-heroku:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Build and push Docker image to Heroku
+          command: |
+            set -x
+            sudo curl https://cli-assets.heroku.com/install.sh | sh
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a biblioteca-stage web
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a biblioteca-stage web
