@@ -24,8 +24,8 @@ public class Book {
 
     private String authorName;
 
-    private Date dateOfPublication;
+    private int yearOfPublication;
 
-    private int numberOfCopies;
+    private int numOfCopies;
 
 }
