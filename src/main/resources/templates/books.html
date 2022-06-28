@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Books</title>
 </head>
 <body>
-
+<table>
+    <thead th:if="${not #lists.isEmpty(books)}">
+    <tr>
+        <th>Book Name</th>
+        <th>Author Name</th>
+        <th>Year Of Publication</th>
+        <th>Number Of Copies</th>
+    <tr>
+    </thead>
+    <tbody th:if="${not #lists.isEmpty(books)}">
+    <tr th:each="book : ${books}">
+        <td th:text="${book.bookName}">Title ...</a></td>
+        <td th:text="${book.authorName}">authorName ...</td>
+        <td th:text="${book.yearOfPublication}">yearOfPublication ...</td>
+        <td th:text="${book.numOfCopies}">copies ...</td>
+    </tr>
+    </tbody>
+    <tbody th:if="${#lists.isEmpty(books)}">
+    <tr>
+        <td colspan="3">No Books in library</td>
+    </tr>
+    </tbody>
+</table>
 </body>
+
+
 </html>

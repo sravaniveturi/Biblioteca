@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -17,17 +16,21 @@ import java.util.List;
 public class BooksController {
 
     @Autowired
-    BookService bookservice;
+    BookService bookService;
 
-    @GetMapping("books")
-    public List<String> books() {
-        return Arrays.asList("Book 1", "Book 2");
+    @GetMapping("/books")
+    public String books(Model model) {
+        List<Book> books = bookService.books();
+        model.addAttribute("books",books);
+        return "books";
     }
 
     @GetMapping("/books/find")
     public String getBookByBookNameOrAuthorName(Model model, @RequestParam String name){
-        Book book = bookservice.findByBookNameOrAuthorName(name);
+        Book book = bookService.findByBookNameOrAuthorName(name);
         model.addAttribute("book", book);
         return "bookdetails";
     }
+
+
 }

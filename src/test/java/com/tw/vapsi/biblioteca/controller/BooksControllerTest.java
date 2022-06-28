@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Date;
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.List;
+
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -31,10 +31,14 @@ class BooksControllerTest extends ControllerTestHelper {
 
     @Test
     @WithMockUser
-    void shouldReturnListOfBooks() throws Exception {
+    void shouldReturnListOfBooksIfAvailable() throws Exception {
+
+        List<Book> books = Arrays.asList(new Book(1, "abc", "abc", 2000, 1));
+        when(bookService.books()).thenReturn(books);
 
         mockMvc.perform(get("/books"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("books", books));
     }
 
     @Test
