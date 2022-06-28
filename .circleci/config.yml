@@ -8,6 +8,7 @@ workflows:
       - test
       - deployToStage
 
+
 jobs:
   build:
     docker:
@@ -33,7 +34,9 @@ jobs:
     docker: # executor type
       - image: cimg/base:stable # primary container will run the latest, production-ready base
     steps:
-      -  checkout
+      - checkout
       - setup_remote_docker:
           version: 20.10.14
       - run: docker build --iidfile image.txt -f Dockerfile . -t teamd
+    requires:
+      - build
