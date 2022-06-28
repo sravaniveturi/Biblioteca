@@ -5,6 +5,7 @@ import com.tw.vapsi.biblioteca.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ public class BookService {
 
     public List<Book> books() {
         List<Book> books= new ArrayList<>();
-        booksRepository.findAll().forEach(books :: add);
+        bookRepository.findAll().forEach(books :: add);
         return books;
     }
 
