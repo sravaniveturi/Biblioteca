@@ -24,8 +24,14 @@ public class Book {
 
     private String authorName;
 
-    private Date dateOfPublication;
+    private int yearOfPublication;
 
-    private int numberOfCopies;
+    private  int  numOfCopies;
 
+    public Book(String bookName, String authorName, int yearOfPublication, int numOfCopies) {
+        this.bookName = bookName;
+        this.authorName = authorName;
+        this.yearOfPublication = yearOfPublication;
+        this.numOfCopies = numOfCopies;
+    }
 }
