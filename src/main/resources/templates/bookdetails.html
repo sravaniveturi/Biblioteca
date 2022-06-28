@@ -7,24 +7,27 @@
 <body>
 <p>Welcome to the Book details page</p>
 <table>
-    <thead>
+    <thead th:if="${book.bookName ne null}">
     <tr>
-        <th>Name</th>
+        <th>Book Name</th>
         <th>Author Name</th>
-        <th>Year of Publication</th>
-        <th>Number of copies</th>
+        <th>Year Of Publication</th>
+        <th>Number Of Copies</th>
     </tr>
     </thead>
-    <tbody>
-    <tr th:field="${book}">
-        <td th:text="${book.bookName}">Text ...</td>
-        <td th:text="${book.authorName}">Text ...</td>
-        <td th:text="${book.yearOfPublication}">Text ...</td>
-        <td th:text="${book.numOfCopies}">Text...</td>
+    <tbody th:if="${book.bookName ne null}">
+    <tr>
+        <td th:text="${book.bookName}">Title ...</td>
+        <td th:text="${book.authorName}">Author ...</td>
+        <td th:text="${book.yearOfPublication}">yearOfPublication ...</td>
+        <td th:text="${book.numOfCopies}">copies...</td>
+    </tr>
+    </tbody>
+    <tbody th:if="${book.bookName == null}">
+    <tr>
+        <td colspan="3">Sorry! No books found with the specified book name or Author name.</td>
     </tr>
     </tbody>
 </table>
-
-
 </body>
 </html>
