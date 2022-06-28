@@ -5,6 +5,7 @@ workflows:
   build_and_test:
     jobs:
       - build
+      - test
 
 jobs:
   build:
@@ -18,3 +19,10 @@ jobs:
           paths:
             - build/
             - .gradle/
+  test:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - run: ./gradlew test
+
