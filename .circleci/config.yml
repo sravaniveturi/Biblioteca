@@ -36,4 +36,4 @@ jobs:
       -  checkout
       - setup_remote_docker:
             version: 20.10.14
-      - run: docker build --build-arg JAR_FILE=./build/libs/biblioteca-0.0.1-SNAPSHOT.jar -t teamD/biblioteca .
+      - run: docker build --build-arg JAR_FILE=./build/libs/biblioteca-0.0.1-SNAPSHOT.jar -t teamd/biblioteca .
