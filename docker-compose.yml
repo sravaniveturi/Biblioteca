@@ -1,7 +1,0 @@
-version: '3.7'
-services:
-  teamd:
-    build: .
-    container_name: biblioteca
-    ports:
-      - "8080:8080"
