@@ -25,9 +25,16 @@ public class BooksController {
         return "books";
     }
 
-    @GetMapping("/books/find")
-    public String getBookByBookNameOrAuthorName(Model model, @RequestParam String name){
-        List<Book> books = bookService.findByBookNameOrAuthorName(name);
+    @GetMapping("/books/findbook")
+    public String getBookByBookName(Model model, @RequestParam String name){
+        List<Book> books = bookService.findByBookName(name);
+        model.addAttribute("books", books);
+        return "bookdetails";
+    }
+
+    @GetMapping("/books/findbyauthor")
+    public String getBookByAuthorName(Model model, @RequestParam String name){
+        List<Book> books = bookService.findByAuthorName(name);
         model.addAttribute("books", books);
         return "bookdetails";
     }

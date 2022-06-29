@@ -23,12 +23,12 @@ public class BookService {
         return books;
     }
 
-    public List<Book> findByBookNameOrAuthorName(String name) {
+    public List<Book> findByBookName(String name) {
         List<Book> books = bookRepository.findByBookNameContainingIgnoreCase(name);
-        if (books.isEmpty()) {
-            books = bookRepository.findByAuthorNameContainingIgnoreCase(name);
-
-        }
+        return books;
+    }
+    public List<Book> findByAuthorName(String name) {
+        List<Book> books = bookRepository.findByAuthorNameContainingIgnoreCase(name);
         return books;
     }
 
