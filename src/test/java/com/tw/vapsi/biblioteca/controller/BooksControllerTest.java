@@ -72,6 +72,6 @@ class BooksControllerTest extends ControllerTestHelper {
         mockMvc.perform(get("/books/find")
                         .param("name", "Carolyn keene"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("book", books));
+                .andExpect(model().attribute("books", books));
     }
 }
