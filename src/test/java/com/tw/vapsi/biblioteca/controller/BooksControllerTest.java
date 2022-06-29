@@ -33,7 +33,7 @@ class BooksControllerTest extends ControllerTestHelper {
     @WithMockUser
     void shouldReturnListOfBooksIfAvailable() throws Exception {
 
-        List<Book> books = Arrays.asList(new Book(1, "abc", "abc", 2000, 1));
+        List<Book> books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
         when(bookService.books()).thenReturn(books);
 
         mockMvc.perform(get("/books"))
