@@ -23,14 +23,13 @@ public class BookService {
         return books;
     }
 
-    public Book findByBookNameOrAuthorName(String name) {
-        Optional<Book> bookOptional = bookRepository.findByBookName(name);
-        if (bookOptional.isPresent()) {
-            return bookOptional.get();
+    public List<Book> findByBookNameOrAuthorName(String name) {
+        List<Book> books = bookRepository.findByBookNameContainingIgnoreCase(name);
+        if (books.isEmpty()) {
+            books = bookRepository.findByAuthorNameContainingIgnoreCase(name);
+
         }
-        if (bookRepository.findByAuthorName(name).isPresent()) {
-            return bookRepository.findByAuthorName(name).get();
-        }
-        return new Book();
+        return books;
     }
+
 }

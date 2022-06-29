@@ -27,12 +27,12 @@ class BookServiceTest {
 
     @Test
     void findByBookName() {
-        Book book = new Book(1, "Nancy Drew", "Carolyn keene", 1988, 1);
-        when(bookRepository.findByBookName(any())).thenReturn(Optional.of(book));
+        List<Book> books= Arrays.asList(new Book(1, "Nancy Drew", "Carolyn keene", 1988, 1));
+        when(bookRepository.findByBookNameContainingIgnoreCase(any())).thenReturn(books);
 
-        Book bookReturned = bookService.findByBookNameOrAuthorName("Nancy Drew");
+        List<Book> booksReturned = bookService.findByBookNameOrAuthorName("Nancy Drew");
 
-        assertEquals(bookReturned, book);
+        assertEquals(booksReturned, books);
     }
 
     @Test

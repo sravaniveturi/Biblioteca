@@ -44,24 +44,34 @@ class BooksControllerTest extends ControllerTestHelper {
     @Test
     void shouldReturnBookWhenSearchedByBookName() throws Exception {
 
-        Book book = new Book(1, "Nancy drew", "Carolyn keene", 1988, 1);
-        when(bookService.findByBookNameOrAuthorName(any())).thenReturn(book);
+        List<Book> books = Arrays.asList(new Book(1, "Nancy drew", "Carolyn keene", 1988, 1));
+        when(bookService.findByBookNameOrAuthorName(any())).thenReturn(books);
 
         mockMvc.perform(get("/books/find")
                 .param("name", "Nancy drew"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("book", book));
+                .andExpect(model().attribute("books", books));
     }
+    @Test
+    void shouldReturnBookWhenSearchedByPartOfBookName() throws Exception {
 
+        List<Book> books = Arrays.asList(new Book(1, "Nancy", "Carolyn keene", 1988, 1));
+        when(bookService.findByBookNameOrAuthorName(any())).thenReturn(books);
+
+        mockMvc.perform(get("/books/find")
+                        .param("name", "Nancy"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("books", books));
+    }
     @Test
     void shouldReturnBookWhenSearchedByAuthorName() throws Exception {
 
-        Book book = new Book(1, "Nancy drew", "Carolyn keene", 1988, 1);
-        when(bookService.findByBookNameOrAuthorName(any())).thenReturn(book);
+        List<Book> books = Arrays.asList(new Book(1, "Nancy drew", "Carolyn keene", 1988, 1));
+        when(bookService.findByBookNameOrAuthorName(any())).thenReturn(books);
 
         mockMvc.perform(get("/books/find")
                         .param("name", "Carolyn keene"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("book", book));
+                .andExpect(model().attribute("book", books));
     }
 }
