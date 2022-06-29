@@ -1,4 +1,6 @@
 spring:
+  server:
+    port: $PORT
   datasource:
     url: jdbc:h2:mem:bibliotecadb
   jpa:
