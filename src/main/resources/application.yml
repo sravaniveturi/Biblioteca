@@ -1,12 +1,12 @@
 spring:
   datasource:
-    platform: postgres
     url: ${databaseURL}
     username: ${dbusername}
     password: ${dbpassword}
-    driverClassName: ${dbDriverClassName}
+    driverClassName: org.postgresql.Driver
   jpa:
-    database: postgresql
+    database:
+      platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
       ddl-auto: create
