@@ -1,23 +1,18 @@
 spring:
   datasource:
-    url: jdbc:postgresql://172.17.0.2:5432/postgres
-  username:
-    postgres
-  password:
-    password
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: password
+    driverClassName: org.postgresql.Driver
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database: postgresql
+    show-sql: true
     hibernate:
-      ddl-auto: none
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
+      ddl-auto: create
   flyway:
     locations:
-      classpath: db_migration
-
+      classpath:/db_migrations
 server:
   port: ${PORT:8080}
 
