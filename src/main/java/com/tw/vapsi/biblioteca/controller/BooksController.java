@@ -1,12 +1,14 @@
 package com.tw.vapsi.biblioteca.controller;
 
 import com.tw.vapsi.biblioteca.model.Book;
+import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,14 +22,23 @@ public class BooksController {
     public String books(Model model) {
         List<Book> books = bookService.books();
         model.addAttribute("books",books);
+
+        //to be removed when db created
+        User user =  new User("sam","bob","test@123","test");
+        model.addAttribute("user",user);
+
         return "books";
     }
- /*   @PostMapping("/books/checkout")
-    public void checkout(Model model){
-        List<Book> booklist = bookService.getBookList();
-        model.addAttribute("booklist",booklist);
-System.out.println(booklist);
-    }*/
+    @PostMapping("/books/checkout")
+    public String checkout(@ModelAttribute("user")User user ){
+
+        System.out.println("user has been posted");
+        for(Book book:user.getCheckoutBooks()){
+            System.out.println(book.getId());
+        }
+
+        return  "books";
+    }
     @GetMapping("/books/findbook")
     public String getBookByBookName(Model model, @RequestParam String name){
         List<Book> books = bookService.findByBookName(name);

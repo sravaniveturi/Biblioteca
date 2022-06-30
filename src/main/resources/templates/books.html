@@ -9,7 +9,7 @@
 
 <div class="container mt-5">
     <h2 align="center">Welcome to the Books page</h2>
-    <form th:action="@{/books/checkout}" th:object="${books}" method="put">
+    <form th:action="@{/books/checkout}" th:object="${user}" method="POST">
 <table class="table table-bordered table-sm mt-2">
     <thead th:if="${not #lists.isEmpty(books)}">
     <tr>
@@ -28,7 +28,7 @@
         <td th:text="${row.numOfCopies}">copies ...</td>
         <td> <input
             type="checkbox"
-            name="checkout"
+            th:field="${user.checkoutBooks}"
             th:value="${row.id}"/></td>
     </tr>
     </tbody>
