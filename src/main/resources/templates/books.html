@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Books</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<table>
+<div class="container mt-5">
+    <h2 align="center">Welcome to the Books page</h2>
+<table class="table table-bordered table-sm mt-2">
     <thead th:if="${not #lists.isEmpty(books)}">
     <tr>
         <th>Book Name</th>
@@ -24,14 +27,23 @@
     </tr>
     </tbody>
 </table>
-<table>
+<table class="table table-bordered table-sm mt-2">
     <tbody th:if="${#lists.isEmpty(books)}">
     <tr>
         <td colspan="3">Sorry!No Books in library</td>
     </tr>
     </tbody>
 </table>
-</body>
 
+<form th:action="@{/books/findbook}" method="get">
+    <input type="text" name="name" th:value="${name}"  placeholder="Find by Book Name" size="30" >
+    <button type="submit" class="btn btn-info" >Search</button>
+</form>
+<form th:action="@{/books/findbyauthor}" method="get">
+    <input type="text" name="name" th:value="${name}"  placeholder="Find by Author Name" size="30" >
+    <button type="submit" class="btn btn-info" >Search</button>
+</form>
+</div>
+</body>
 
 </html>
