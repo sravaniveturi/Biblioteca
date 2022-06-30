@@ -1,15 +1,23 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:bibliotecadb
+    url: jdbc:postgresql://172.17.0.2:5432/postgres
+  username:
+    postgres
+  password:
+    password
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   h2:
     console:
       enabled: true
       settings:
         web-allow-others: true
+  flyway:
+    locations:
+      classpath: db_migration
+
 server:
   port: ${PORT:8080}
-    
+
