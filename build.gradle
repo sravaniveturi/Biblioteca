@@ -18,6 +18,7 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.postgresql:postgresql:42.3.6'
+	runtimeOnly 'com.h2database:h2'
 	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
 	implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.6.5.Final'
 	annotationProcessor 'org.projectlombok:lombok:1.18.22'

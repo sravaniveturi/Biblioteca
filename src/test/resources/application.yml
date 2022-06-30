@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    platform: org.hibernate.dialect.H2Dialect
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    database:
+      platform:
+        org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+  flyway:
+    locations:
+      classpath:/db_migrations
