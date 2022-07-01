@@ -29,16 +29,7 @@ public class BooksController {
 
         return "books";
     }
-    @PostMapping("/books/checkout")
-    public String checkout(@ModelAttribute("user")User user ){
 
-        System.out.println("user has been posted");
-        for(Book book:user.getCheckoutBooks()){
-            System.out.println(book.getId());
-        }
-
-        return  "books";
-    }
     @GetMapping("/books/findbook")
     public String getBookByBookName(Model model, @RequestParam String name){
         List<Book> books = bookService.findByBookName(name);

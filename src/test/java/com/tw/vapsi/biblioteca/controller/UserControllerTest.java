@@ -1,6 +1,7 @@
 package com.tw.vapsi.biblioteca.controller;
 
 import com.tw.vapsi.biblioteca.controller.helper.ControllerTestHelper;
+import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,8 +10,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -23,12 +28,15 @@ class UserControllerTest extends ControllerTestHelper {
     private String lastName;
     private String password;
 
+    private List<Book> books;
+
     @BeforeEach
     void setUp() {
         email = "test-mail@test.com";
         firstName = "Micky";
         lastName = "Mouse";
         password = "password@123";
+        books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
     }
 
     @Test
@@ -115,4 +123,18 @@ class UserControllerTest extends ControllerTestHelper {
     private String createReasonFor(String parameterName) {
         return "Required request parameter '" + parameterName + "' for method parameter type String is not present";
     }
+    @Test
+    void shouldAbleToCheckedOutBooks() throws Exception{
+
+        User user = mock(User.class);
+        when(userService.checkOut(user)).thenReturn(books);
+
+        mockMvc.perform(post("/users/checkout").sessionAttr("user", user))
+                .andExpect(status().isOk());
+
+
+        verify(userService, times(1)).checkOut(any());
+
+    }
+
 }

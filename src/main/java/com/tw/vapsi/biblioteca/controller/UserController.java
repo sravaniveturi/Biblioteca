@@ -1,11 +1,11 @@
 package com.tw.vapsi.biblioteca.controller;
 
+import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -23,6 +23,12 @@ public class UserController {
                            @RequestParam String email,
                            @RequestParam String password) {
         return userService.save(firstName, lastName, email, password);
+    }
+
+    @PostMapping("/checkout")
+    public String checkout(@ModelAttribute("user")User user ) {
+    List<Book> books=userService.checkOut(user);
+        return "index";
     }
 
 }

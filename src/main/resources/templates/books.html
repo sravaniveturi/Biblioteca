@@ -9,7 +9,7 @@
 
 <div class="container mt-5">
     <h2 align="center">Welcome to the Books page</h2>
-    <form th:action="@{/books/checkout}" th:object="${user}" method="POST">
+    <form th:action="@{/users/checkout}" th:object="${user}" method="POST">
 <table class="table table-bordered table-sm mt-2">
     <thead th:if="${not #lists.isEmpty(books)}">
     <tr>

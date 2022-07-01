@@ -1,5 +1,6 @@
 package com.tw.vapsi.biblioteca.service;
 
+import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.repository.UserRepository;
 import com.tw.vapsi.biblioteca.service.dto.UserDetailsDTO;
@@ -12,10 +13,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
@@ -26,6 +28,8 @@ class UserServiceTest {
     @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserService userService;
+
+    private List<Book> books;
 
 
     @BeforeEach
@@ -82,5 +86,22 @@ class UserServiceTest {
 
         assertEquals(expectedUser, actualUser);
         verify(userRepository, times(1)).save(userToBeCreated);
+    }
+
+    @Test
+    void shouldReturnBooksCheckedOutForUser() {
+        User user = new User(
+                "Micky",
+                "Mouse",
+                "micky-mouse@example.com",
+                "encoded-password");
+        books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
+        user.setCheckoutBooks(books);
+        when(userRepository.save(any())).thenReturn(user);
+
+        List<Book> booksCheckedOut=userService.checkOut(user);
+
+        assertEquals(books,booksCheckedOut);
+        verify(userRepository, times(1)).save(user);
     }
 }
