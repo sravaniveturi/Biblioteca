@@ -10,9 +10,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-  flyway:
-    locations:
-      classpath:/db_migrations
+  
 server:
   port: ${PORT:8080}
 
