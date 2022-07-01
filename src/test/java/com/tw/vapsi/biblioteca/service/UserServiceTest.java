@@ -4,6 +4,7 @@ import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.repository.UserRepository;
 import com.tw.vapsi.biblioteca.service.dto.UserDetailsDTO;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,8 +29,6 @@ class UserServiceTest {
     @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserService userService;
-
-    private List<Book> books;
 
 
     @BeforeEach
@@ -95,7 +94,7 @@ class UserServiceTest {
                 "Mouse",
                 "micky-mouse@example.com",
                 "encoded-password");
-        books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
+        List<Book> books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
         user.setCheckoutBooks(books);
         when(userRepository.save(any())).thenReturn(user);
 
@@ -104,4 +103,42 @@ class UserServiceTest {
         assertEquals(books,booksCheckedOut);
         verify(userRepository, times(1)).save(user);
     }
+
+    @Test
+    void shouldReturnEmptyForUserWithNoCheckOutBooks() {
+        List<Book> expectedBooks = Lists.newArrayList();
+        User user = new User(
+                1L,
+                "Micky",
+                "Mouse",
+                "micky-mouse@example.com",
+                "encoded-password");
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+
+        List<Book> booksReturned = userService.getCheckOutBooks(1);
+
+        assertTrue(booksReturned.isEmpty());
+        verify(userRepository, times(1)).findById(1L);
+    }
+    @Test
+    void shouldReturnCheckoutBooksForUser() {
+        List<Book> expectedBooks = Arrays.asList(new Book(1, "abc","abc",1,12));
+        User user = new User(
+                1L,
+                "Micky",
+                "Mouse",
+                "micky-mouse@example.com",
+                "encoded-password");
+        user.setCheckoutBooks(expectedBooks);
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+
+        List<Book> booksReturned = userService.getCheckOutBooks(1);
+
+        assertEquals(booksReturned, expectedBooks);
+        verify(userRepository, times(1)).findById(1L);
+    }
+
+
+
+
 }

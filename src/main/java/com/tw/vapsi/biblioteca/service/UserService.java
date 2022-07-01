@@ -35,6 +35,10 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    public List<Book> getCheckOutBooks(long id) {
+       return  userRepository.findById(id).get().getCheckoutBooks();
+    }
+
     public List<Book> checkOut(User user) {
         User userUpdatedWithCheckoutBooks= userRepository.save(user);
         return userUpdatedWithCheckoutBooks.getCheckoutBooks();

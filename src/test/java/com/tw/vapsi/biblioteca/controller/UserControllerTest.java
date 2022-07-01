@@ -3,6 +3,7 @@ package com.tw.vapsi.biblioteca.controller;
 import com.tw.vapsi.biblioteca.controller.helper.ControllerTestHelper;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,4 +138,30 @@ class UserControllerTest extends ControllerTestHelper {
 
     }
 
+
+    @Test
+    void shouldReturnCheckoutBooksForUser() throws Exception {
+        List<Book> books= Arrays.asList(new Book(1, "abc", "abc", 1, 1988));
+        when(userService.getCheckOutBooks(anyLong())).thenReturn(books);
+
+        mockMvc.perform(get("/users/checkoutBooks")
+                .param("id", String.valueOf(1)))
+                .andExpect(status().isOk())
+                .andExpect(view().name("bookdetails"))
+                .andExpect(model().attributeExists("books"));
+
+    }
+
+    @Test
+    void shouldReturnNoBooksForUserWithNoCheckOutBooks() throws Exception {
+        List<Book> books= Lists.newArrayList();
+        when(userService.getCheckOutBooks(anyLong())).thenReturn(books);
+
+        mockMvc.perform(get("/users/checkoutBooks")
+                        .param("id", String.valueOf(1)))
+                .andExpect(status().isOk())
+                .andExpect(view().name("bookdetails"))
+                .andExpect(model().attributeExists("errorMessage"));
+
+    }
 }
