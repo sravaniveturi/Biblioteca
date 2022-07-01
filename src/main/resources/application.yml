@@ -1,10 +1,10 @@
 spring:
   datasource:
+    platform: postgres
     url: ${DATABASE_URL}
     driverClassName: org.postgresql.Driver
   jpa:
-    database:
-      platform: org.hibernate.dialect.PostgreSQLDialect
+    database: POSTGRESQL
     show-sql: true
     hibernate:
       ddl-auto: update
