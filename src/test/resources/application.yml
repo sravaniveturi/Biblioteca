@@ -11,6 +11,3 @@ spring:
         org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
-  flyway:
-    locations:
-      classpath:/db_migrations
