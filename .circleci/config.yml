@@ -7,7 +7,7 @@ workflows:
 #       - test:
 #            requires:
 #             - build
-      - deployToStage:
+      - deployToStage
 #            requires:
 #             - test
 
