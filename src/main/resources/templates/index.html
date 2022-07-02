@@ -6,19 +6,16 @@
     <title>Title</title>
 </head>
 <body>
-<table>
-    <tr>
-        <td th:text="${welcomeText}">Title ...</td>
-    </tr>
+<div align="center">
+    </br></br></br>
+    <h2 th:text="${welcomeText}">Title ...</h2>
+    </br></br>
+    <a href="/books" th:href="@{/books}" style="align:center;font-family:Times;font-size:20px;padding-right:40px">
+        View Books Available</a> |
+    <a href="#" th:href="@{/users/checkoutBooks}" style ="align:center;font-family:Times;font-size:20px;padding-left:40px">View Checkout books</a>
+</div>
 
-    <tr>
-        <td><a href="#" th:href="@{/users/checkoutBooks}">View Checkout books</a></td>
-    </tr>
-
-    <tr>
-        <td><a href="#" th:href="@{/books}">View All books</a></td>
-    </tr>
-
-</table>
 </body>
 </html>
+
+<!--        <td><a href="#" th:href="@{/users/checkoutBooks}">View Checkout books</a></td>-->
