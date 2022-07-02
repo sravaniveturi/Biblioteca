@@ -9,46 +9,48 @@
 
 <div class="container mt-5">
     <h2 align="center">Welcome to the Books page</h2>
-    <form th:action="@{/users/checkout}" th:object="${user}" method="POST">
-<table class="table table-bordered table-sm mt-2">
-    <thead th:if="${not #lists.isEmpty(books)}">
-    <tr>
-        <th>Book Name</th>
-        <th>Author Name</th>
-        <th>Year Of Publication</th>
-        <th>Number Of Copies</th>
-        <th>Checkout</th>
-    <tr>
-    </thead>
-    <tbody th:if="${not #lists.isEmpty(books)}">
-    <tr th:each="row : ${books}">
-        <td th:text="${row.bookName}">Title ...</td>
-        <td th:text="${row.authorName}">authorName ...</td>
-        <td th:text="${row.yearOfPublication}">yearOfPublication ...</td>
-        <td th:text="${row.numOfCopies}">copies ...</td>
-        <td> <input
-            type="checkbox"
-            th:field="${user.checkoutBooks}"
-            th:value="${row.id}"/></td>
-    </tr>
-    </tbody>
-</table>
-    <div class="col-xs-20">
-        <input type="submit" value="submit"/>
+    <div align="right">
+        <form th:action="@{/findbook}" method="get">
+            <input type="text" name="name" th:value="${name}" placeholder="Find by Book or Author Name" size="30">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
     </div>
-    </form>
-<table class="table table-bordered table-sm mt-2">
-    <tbody th:if="${#lists.isEmpty(books)}">
-    <tr>
-        <td colspan="3">Sorry!No Books in library</td>
-    </tr>
-    </tbody>
-</table>
 
-<form th:action="@{/books/findbook}" method="get">
-    <input type="text" name="name" th:value="${name}"  placeholder="Find by Book or Author Name" size="30" >
-    <button type="submit" class="btn btn-primary" >Search</button>
-</form>
+    <form th:action="@{/users/checkout}" th:object="${user}" method="POST">
+        <table class="table table-bordered table-striped">
+            <thead th:if="${not #lists.isEmpty(books)}">
+            <tr>
+                <th>Book Name</th>
+                <th>Author Name</th>
+                <th>Year Of Publication</th>
+                <th>Number Of Copies</th>
+                <th>Checkout</th>
+            <tr>
+            </thead>
+            <tbody th:if="${not #lists.isEmpty(books)}">
+            <tr th:each="row : ${books}">
+                <td th:text="${row.bookName}">Title ...</td>
+                <td th:text="${row.authorName}">authorName ...</td>
+                <td th:text="${row.yearOfPublication}">yearOfPublication ...</td>
+                <td th:text="${row.numOfCopies}">copies ...</td>
+                <td><input
+                        type="checkbox"
+                        th:field="${user.checkoutBooks}"
+                        th:value="${row.id}"/></td>
+            </tr>
+            </tbody>
+        </table>
+        <div align="right" class="col-xs-20">
+            <button type="submit" class="btn btn-primary">Checkout</button>
+        </div>
+    </form>
+    <table class="table table-bordered table-sm mt-2">
+        <tbody th:if="${#lists.isEmpty(books)}">
+        <tr>
+            <td colspan="3">Sorry!No Books in library</td>
+        </tr>
+        </tbody>
+    </table>
 
 </div>
 
