@@ -7,9 +7,18 @@
 </head>
 <body>
 <table>
-    <td th:text="${welcomeText}">Title ...</td>
+    <tr>
+        <td th:text="${welcomeText}">Title ...</td>
+    </tr>
 
-    <a href="#" th:href="@{/users/checkoutBooks}">View Checkout books</a>
+    <tr>
+        <td><a href="#" th:href="@{/users/checkoutBooks}">View Checkout books</a></td>
+    </tr>
+
+    <tr>
+        <td><a href="#" th:href="@{/books}">View All books</a></td>
+    </tr>
+
 </table>
 </body>
 </html>

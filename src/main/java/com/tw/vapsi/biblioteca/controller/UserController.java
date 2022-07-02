@@ -36,7 +36,7 @@ public class UserController {
 
         user.setEmail(userDetails.getUsername());
         List<Book> books=userService.checkOut(user);
-        return new RedirectView("/books");
+        return new RedirectView("/");
     }
 
     @GetMapping("/checkoutBooks")
