@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
 import java.util.List;
 
 @RestController
@@ -29,12 +31,12 @@ public class UserController {
     }
 
     @PostMapping("/checkout")
-    public String checkout(@ModelAttribute("user")User user , Authentication authentication) {
+    public RedirectView checkout(@ModelAttribute("user")User user , Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         user.setEmail(userDetails.getUsername());
         List<Book> books=userService.checkOut(user);
-        return "index";
+        return new RedirectView("/books");
     }
 
     @GetMapping("/checkoutBooks")
