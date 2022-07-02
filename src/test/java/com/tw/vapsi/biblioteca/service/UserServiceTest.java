@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,16 +24,18 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+
 class UserServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Mock
+    private BookService bookService;
     private UserService userService;
 
-    @MockBean
-    private BookService bookService;
+
 
 
 
@@ -96,7 +97,7 @@ class UserServiceTest {
     }
 
    @Test
-    void shouldReturnBooksCheckedOutForUser() {
+    void shouldCheckOutBooksForUser() {
         User user = new User(
                 "Micky",
                 "Mouse",
@@ -104,13 +105,15 @@ class UserServiceTest {
                 "encoded-password");
         List<Book> books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
         user.setCheckoutBooks(books);
+
         when(userRepository.save(any())).thenReturn(user);
 
-        List<Book> booksCheckedOut=userService.checkOut(user);
+
+       List<Book> booksCheckedOut=userService.checkOut(user);
 
         assertEquals(books,booksCheckedOut);
         verify(userRepository, times(1)).save(user);
-      // verify(bookService,times(1)).decrementBookCopyByOne(booksCheckedOut);
+      //  verify(bookService,times(1)).decrementBookCopyByOne(any());
 
 
     }

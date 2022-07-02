@@ -18,11 +18,10 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public void setBookService(BookService bookService) {
-        this.bookService = bookService;
-    }
-
+    @Autowired
     private BookService bookService;
+
+
     public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -48,10 +47,11 @@ public class UserService implements UserDetailsService {
     }
 
     public List<Book> checkOut(User user) {
-        User userUpdatedWithCheckoutBooks= userRepository.save(user);
+        User userDetailsFromDataBase = userRepository.findByEmail(user.getEmail()).get();
+        userDetailsFromDataBase.setCheckoutBooks(user.getCheckoutBooks());
+        User userUpdatedWithCheckoutBooks= userRepository.save(userDetailsFromDataBase);
        List<Book>checkOutBooks=userUpdatedWithCheckoutBooks.getCheckoutBooks();
-
-      // bookService.decrementBookCopyByOne(checkOutBooks);
+        bookService.decrementBookCopyByOne(checkOutBooks);
         return checkOutBooks;
     }
 }

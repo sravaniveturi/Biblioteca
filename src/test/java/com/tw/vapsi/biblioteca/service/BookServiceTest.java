@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class BookServiceTest {
@@ -75,4 +75,13 @@ class BookServiceTest {
         assertTrue(booksReturned.isEmpty());
     }
 
+    @Test
+    void shouldCallBookRepositoryUpdateCopies() {
+
+        bookService.decrementBookCopyByOne(books);
+        long bookId =books.get(0).getId();
+
+        verify(bookRepository,times(1)).updateNoOfCopies(bookId);
+
+    }
 }

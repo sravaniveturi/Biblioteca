@@ -3,6 +3,7 @@ package com.tw.vapsi.biblioteca.controller;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
+import com.tw.vapsi.biblioteca.service.dto.UserDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +23,7 @@ public class BooksController {
     public String books(Model model) {
         List<Book> books = bookService.books();
         model.addAttribute("books",books);
-
-        //to be removed when db created
-        User user =  new User("sam","bob","test@123","test");
-        model.addAttribute("user",user);
+        model.addAttribute("user",new User());
 
         return "books";
     }

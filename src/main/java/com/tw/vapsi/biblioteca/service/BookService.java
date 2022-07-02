@@ -35,5 +35,10 @@ public class BookService {
 
     public void decrementBookCopyByOne(List<Book> booksCheckedOut) {
 
+        for (Book book: booksCheckedOut) {
+            bookRepository.updateNoOfCopies(book.getId());
+        }
+
+
     }
 }

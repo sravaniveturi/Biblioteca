@@ -3,6 +3,8 @@ package com.tw.vapsi.biblioteca.controller;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -27,8 +29,11 @@ public class UserController {
     }
 
     @PostMapping("/checkout")
-    public String checkout(@ModelAttribute("user")User user ) {
-    List<Book> books=userService.checkOut(user);
+    public String checkout(@ModelAttribute("user")User user , Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        user.setEmail(userDetails.getUsername());
+        List<Book> books=userService.checkOut(user);
         return "index";
     }
 
