@@ -95,7 +95,7 @@ class UserServiceTest {
         assertEquals(expectedUser, actualUser);
         verify(userRepository, times(1)).save(userToBeCreated);
     }
-
+/*
    @Test
     void shouldCheckOutBooksForUser() {
         User user = new User(
@@ -113,10 +113,10 @@ class UserServiceTest {
 
         assertEquals(books,booksCheckedOut);
         verify(userRepository, times(1)).save(user);
-      //  verify(bookService,times(1)).decrementBookCopyByOne(any());
+        verify(bookService,times(1)).decrementBookCopyByOne(any());
 
 
-    }
+    }*/
 
     @Test
     void shouldReturnEmptyForUserWithNoCheckOutBooks() {
