@@ -17,11 +17,6 @@ public class BookService {
     BookRepository bookRepository;
 
     public List<Book> books() {
-        //to be removed when db created
-        Book book1 = new Book(1, "The Diary of a Young Girl","Anne Frank",2014,2);
-        bookRepository.save(book1);
-        Book book2 = new Book(2, "A Gentleman in Moscow","Amor Towles ",2017,2);
-        bookRepository.save(book2);
 
         List<Book> books = new ArrayList<>();
         bookRepository.findAll(Sort.by(Sort.Direction.ASC, "bookName"))
@@ -38,4 +33,7 @@ public class BookService {
         return books;
     }
 
+    public void decrementBookCopyByOne(List<Book> booksCheckedOut) {
+
+    }
 }

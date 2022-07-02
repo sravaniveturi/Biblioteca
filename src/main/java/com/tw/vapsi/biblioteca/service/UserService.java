@@ -4,6 +4,7 @@ import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.repository.UserRepository;
 import com.tw.vapsi.biblioteca.service.dto.UserDetailsDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,10 +18,17 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    public void setBookService(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    private BookService bookService;
     public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
+
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -41,6 +49,9 @@ public class UserService implements UserDetailsService {
 
     public List<Book> checkOut(User user) {
         User userUpdatedWithCheckoutBooks= userRepository.save(user);
-        return userUpdatedWithCheckoutBooks.getCheckoutBooks();
+       List<Book>checkOutBooks=userUpdatedWithCheckoutBooks.getCheckoutBooks();
+
+      // bookService.decrementBookCopyByOne(checkOutBooks);
+        return checkOutBooks;
     }
 }

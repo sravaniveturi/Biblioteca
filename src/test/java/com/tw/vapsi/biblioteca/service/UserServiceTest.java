@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,12 +25,18 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class UserServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserService userService;
+
+    @MockBean
+    private BookService bookService;
+   
+
 
 
     @BeforeEach
@@ -87,7 +95,7 @@ class UserServiceTest {
         verify(userRepository, times(1)).save(userToBeCreated);
     }
 
-    @Test
+   @Test
     void shouldReturnBooksCheckedOutForUser() {
         User user = new User(
                 "Micky",
@@ -102,6 +110,9 @@ class UserServiceTest {
 
         assertEquals(books,booksCheckedOut);
         verify(userRepository, times(1)).save(user);
+      // verify(bookService,times(1)).decrementBookCopyByOne(booksCheckedOut);
+
+
     }
 
     @Test
@@ -137,6 +148,7 @@ class UserServiceTest {
         assertEquals(booksReturned, expectedBooks);
         verify(userRepository, times(1)).findById(1L);
     }
+
 
 
 
