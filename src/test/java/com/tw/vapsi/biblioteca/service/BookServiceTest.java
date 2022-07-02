@@ -44,7 +44,7 @@ class BookServiceTest {
     void shouldReturnBookWhenFindByBookName() {
         when(bookRepository.findByBookNameContainingIgnoreCase(any())).thenReturn(books);
 
-        List<Book> booksReturned = bookService.findByBookName("Nancy Drew");
+        List<Book> booksReturned = bookService.findByBookNameOrAuthorName("Nancy Drew");
 
         assertEquals(booksReturned, books);
     }
@@ -52,7 +52,7 @@ class BookServiceTest {
     void shouldReturnEmptyWhenFindByBookNameNotSuccessFul() {
         when(bookRepository.findByBookNameContainingIgnoreCase(any())).thenReturn(Lists.newArrayList());
 
-        List<Book> booksReturned = bookService.findByAuthorName("Harry");
+        List<Book> booksReturned = bookService.findByBookNameOrAuthorName("Harry");
 
         assertTrue(booksReturned.isEmpty());
     }
@@ -61,7 +61,7 @@ class BookServiceTest {
     void shouldReturnBookWhenFindByAuthorName() {
         when(bookRepository.findByAuthorNameContainingIgnoreCase(any())).thenReturn(books);
 
-        List<Book> booksReturned = bookService.findByAuthorName("Carolyn");
+        List<Book> booksReturned = bookService.findByBookNameOrAuthorName("Carolyn");
 
         assertEquals(booksReturned, books);
     }
@@ -70,7 +70,7 @@ class BookServiceTest {
     void shouldReturnEmptyWhenFindByAuthorNameNotSuccessFul() {
         when(bookRepository.findByAuthorNameContainingIgnoreCase(any())).thenReturn(Lists.newArrayList());
 
-        List<Book> booksReturned = bookService.findByAuthorName("Carolyn");
+        List<Book> booksReturned = bookService.findByBookNameOrAuthorName("Carolyn");
 
         assertTrue(booksReturned.isEmpty());
     }

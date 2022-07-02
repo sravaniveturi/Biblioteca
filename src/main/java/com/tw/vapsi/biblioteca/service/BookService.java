@@ -24,12 +24,9 @@ public class BookService {
         return books;
     }
 
-    public List<Book> findByBookName(String name) {
+    public List<Book> findByBookNameOrAuthorName(String name) {
         List<Book> books = bookRepository.findByBookNameContainingIgnoreCase(name);
-        return books;
-    }
-    public List<Book> findByAuthorName(String name) {
-        List<Book> books = bookRepository.findByAuthorNameContainingIgnoreCase(name);
+        bookRepository.findByAuthorNameContainingIgnoreCase(name).forEach(books::add);
         return books;
     }
 

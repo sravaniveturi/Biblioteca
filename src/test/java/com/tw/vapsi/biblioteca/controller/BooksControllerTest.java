@@ -50,10 +50,10 @@ class BooksControllerTest extends ControllerTestHelper {
     @Test
     void shouldReturnBookWhenSearchedByBookName() throws Exception {
 
-        when(bookService.findByBookName(any())).thenReturn(books);
+        when(bookService.findByBookNameOrAuthorName(any())).thenReturn(books);
 
-        mockMvc.perform(get("/books/findbook")
-                        .param("name", "Nancy drew"))
+        mockMvc.perform(get("/findbook")
+                        .param("name", "Harry"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
                 .andExpect(view().name("findbook"));
@@ -62,10 +62,10 @@ class BooksControllerTest extends ControllerTestHelper {
     @Test
     void shouldReturnBookWhenSearchedByPartOfBookName() throws Exception {
 
-        when(bookService.findByBookName(any())).thenReturn(books);
+        when(bookService.findByBookNameOrAuthorName(any())).thenReturn(books);
 
-        mockMvc.perform(get("/books/findbook")
-                        .param("name", "Nancy"))
+        mockMvc.perform(get("/findbook")
+                        .param("name", "Harry"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
                 .andExpect(view().name("findbook"));
@@ -74,22 +74,22 @@ class BooksControllerTest extends ControllerTestHelper {
     @Test
     void shouldReturnBookWhenSearchedByAuthorName() throws Exception {
 
-        when(bookService.findByAuthorName(any())).thenReturn(books);
+        when(bookService.findByBookNameOrAuthorName(any())).thenReturn(books);
 
-        mockMvc.perform(get("/books/findbook")
-                        .param("name", "Carolyn keene"))
+        mockMvc.perform(get("/findbook")
+                        .param("name", "Rowling"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
                 .andExpect(view().name("findbook"));
     }
 
     @Test
-    void shouldReturnNoBooksFoundWhenSearchNotFound() throws Exception {
+    void shouldReturnEmptyWhenSearchNotFound() throws Exception {
 
-        when(bookService.findByAuthorName(any())).thenReturn(Lists.newArrayList());
+        when(bookService.findByBookNameOrAuthorName(any())).thenReturn(Lists.newArrayList());
 
-        mockMvc.perform(get("/books/findbook")
-                        .param("name", "Carolyn"))
+        mockMvc.perform(get("/findbook")
+                        .param("name", "Rowling"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", Lists.newArrayList()))
                 .andExpect(view().name("findbook"));
