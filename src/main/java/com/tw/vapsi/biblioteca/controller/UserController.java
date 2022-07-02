@@ -5,10 +5,12 @@ import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
 
 import java.util.List;
 
@@ -39,14 +41,15 @@ public class UserController {
         return new RedirectView("/");
     }
 
-    @GetMapping("/checkoutBooks")
-    public ModelAndView getCheckOutBooks(@RequestParam long id){
-        ModelAndView mav = new ModelAndView("bookdetails");
-        List<Book> books = userService.getCheckOutBooks(id);
-        if(books.isEmpty()){
-            mav.addObject("errorMessage","No books checked out by user.");
-        }
-        mav.addObject("books",books);
+    @GetMapping("/viewCheckout")
+    public ModelAndView getCheckOutBooks(@AuthenticationPrincipal UserDetails user){
+
+         ModelAndView mav = new ModelAndView("bookdetails");
+            List<Book> books = userService.getCheckOutBooks(user.getUsername());
+            if (books.isEmpty()) {
+                mav.addObject("errorMessage", "No books checked out by user.");
+            }
+            mav.addObject("books", books);
         return mav;
     }
 

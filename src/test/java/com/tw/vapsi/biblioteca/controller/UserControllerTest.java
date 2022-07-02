@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -141,11 +142,11 @@ class UserControllerTest extends ControllerTestHelper {
 
     @Test
     void shouldReturnCheckoutBooksForUser() throws Exception {
-        List<Book> books= Arrays.asList(new Book(1, "abc", "abc", 1, 1988));
-        when(userService.getCheckOutBooks(anyLong())).thenReturn(books);
+        User user = new User(1L, firstName, lastName, email, password);
 
-        mockMvc.perform(get("/users/checkoutBooks")
-                .param("id", String.valueOf(1)))
+        when(userService.getCheckOutBooks(any())).thenReturn(books);
+
+        mockMvc.perform(get("/users/viewCheckout").with(user("user")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("bookdetails"))
                 .andExpect(model().attributeExists("books"));
@@ -154,11 +155,12 @@ class UserControllerTest extends ControllerTestHelper {
 
     @Test
     void shouldReturnNoBooksForUserWithNoCheckOutBooks() throws Exception {
-        List<Book> books= Lists.newArrayList();
-        when(userService.getCheckOutBooks(anyLong())).thenReturn(books);
+        User user = new User(1L, firstName, lastName, email, password);
 
-        mockMvc.perform(get("/users/checkoutBooks")
-                        .param("id", String.valueOf(1)))
+        List<Book> books= Lists.newArrayList();
+        when(userService.getCheckOutBooks(any())).thenReturn(books);
+
+        mockMvc.perform(get("/users/viewCheckout").with(user("user")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("bookdetails"))
                 .andExpect(model().attributeExists("errorMessage"));
