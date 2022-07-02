@@ -125,7 +125,7 @@ class UserControllerTest extends ControllerTestHelper {
     private String createReasonFor(String parameterName) {
         return "Required request parameter '" + parameterName + "' for method parameter type String is not present";
     }
-    @Test
+    /*@Test
     void shouldAbleToCheckedOutBooks() throws Exception{
 
         User user = mock(User.class);
@@ -137,7 +137,7 @@ class UserControllerTest extends ControllerTestHelper {
 
         verify(userService, times(1)).checkOut(any());
 
-    }
+    }*/
 
 
     @Test
