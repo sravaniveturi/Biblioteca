@@ -4,18 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div align="center">
-    </br></br></br>
-    <h2 th:text="${welcomeText}">Title ...</h2>
-    </br></br>
-    <a href="/books" th:href="@{/books}" style="align:center;font-family:Times;font-size:20px;padding-right:40px">
-        View Books Available</a> |
-    <a href="#" th:href="@{/users/checkoutBooks}" style ="align:center;font-family:Times;font-size:20px;padding-left:40px">View Checkout books</a>
+<div class="content-main">
+    <h1 align="center">Biblioteca</h1>
+    <h2 align="center" th:text="${welcomeText}">Welcome ...</h2>
+</div>
+<div class="content-secondary">
+    <a href="#" th:href="@{/books}">View All books</a>
+    <a href="#" th:href="@{/users/viewCheckout}">View Your Checkout books</a>
 </div>
 
 </body>
 </html>
-
-<!--        <td><a href="#" th:href="@{/users/checkoutBooks}">View Checkout books</a></td>-->

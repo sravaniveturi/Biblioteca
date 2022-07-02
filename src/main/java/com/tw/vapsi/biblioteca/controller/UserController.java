@@ -44,7 +44,7 @@ public class UserController {
     @GetMapping("/viewCheckout")
     public ModelAndView getCheckOutBooks(@AuthenticationPrincipal UserDetails user){
 
-         ModelAndView mav = new ModelAndView("bookdetails");
+         ModelAndView mav = new ModelAndView("viewcheckoutbooks");
             List<Book> books = userService.getCheckOutBooks(user.getUsername());
             if (books.isEmpty()) {
                 mav.addObject("errorMessage", "No books checked out by user.");

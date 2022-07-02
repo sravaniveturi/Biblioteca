@@ -148,7 +148,7 @@ class UserControllerTest extends ControllerTestHelper {
 
         mockMvc.perform(get("/users/viewCheckout").with(user("user")))
                 .andExpect(status().isOk())
-                .andExpect(view().name("bookdetails"))
+                .andExpect(view().name("viewcheckoutbooks"))
                 .andExpect(model().attributeExists("books"));
 
     }
@@ -162,7 +162,7 @@ class UserControllerTest extends ControllerTestHelper {
 
         mockMvc.perform(get("/users/viewCheckout").with(user("user")))
                 .andExpect(status().isOk())
-                .andExpect(view().name("bookdetails"))
+                .andExpect(view().name("viewcheckoutbooks"))
                 .andExpect(model().attributeExists("errorMessage"));
 
     }

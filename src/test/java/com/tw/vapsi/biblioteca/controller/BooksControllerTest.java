@@ -56,7 +56,7 @@ class BooksControllerTest extends ControllerTestHelper {
                         .param("name", "Nancy drew"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
-                .andExpect(view().name("bookdetails"));
+                .andExpect(view().name("findbook"));
     }
 
     @Test
@@ -68,7 +68,7 @@ class BooksControllerTest extends ControllerTestHelper {
                         .param("name", "Nancy"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
-                .andExpect(view().name("bookdetails"));
+                .andExpect(view().name("findbook"));
     }
 
     @Test
@@ -76,11 +76,11 @@ class BooksControllerTest extends ControllerTestHelper {
 
         when(bookService.findByAuthorName(any())).thenReturn(books);
 
-        mockMvc.perform(get("/books/findbyauthor")
+        mockMvc.perform(get("/books/findbook")
                         .param("name", "Carolyn keene"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
-                .andExpect(view().name("bookdetails"));
+                .andExpect(view().name("findbook"));
     }
 
     @Test
@@ -88,10 +88,10 @@ class BooksControllerTest extends ControllerTestHelper {
 
         when(bookService.findByAuthorName(any())).thenReturn(Lists.newArrayList());
 
-        mockMvc.perform(get("/books/findbyauthor")
+        mockMvc.perform(get("/books/findbook")
                         .param("name", "Carolyn"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", Lists.newArrayList()))
-                .andExpect(view().name("bookdetails"));
+                .andExpect(view().name("findbook"));
     }
 }
