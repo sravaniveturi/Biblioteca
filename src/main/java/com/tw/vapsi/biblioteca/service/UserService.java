@@ -42,8 +42,9 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public List<Book> getCheckOutBooks(long id) {
-       return  userRepository.findById(id).get().getCheckoutBooks();
+    public List<Book> getCheckOutBooks(String email) {
+       User user = findByEmail(email);
+       return  user.getCheckoutBooks();
     }
 
     public List<Book> checkOut(User user) {
@@ -53,5 +54,9 @@ public class UserService implements UserDetailsService {
        List<Book>checkOutBooks=userUpdatedWithCheckoutBooks.getCheckoutBooks();
         bookService.decrementBookCopyByOne(checkOutBooks);
         return checkOutBooks;
+    }
+
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email).get();
     }
 }

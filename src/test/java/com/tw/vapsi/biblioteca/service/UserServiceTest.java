@@ -4,7 +4,6 @@ import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.repository.UserRepository;
 import com.tw.vapsi.biblioteca.service.dto.UserDetailsDTO;
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -119,20 +118,18 @@ class UserServiceTest {
     }*/
 
     @Test
-    void shouldReturnEmptyForUserWithNoCheckOutBooks() {
-        List<Book> expectedBooks = Lists.newArrayList();
+    void shouldReturnEmptyListForUserWithNoCheckOutBooks() {
         User user = new User(
                 1L,
                 "Micky",
                 "Mouse",
                 "micky-mouse@example.com",
                 "encoded-password");
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
 
-        List<Book> booksReturned = userService.getCheckOutBooks(1);
+        List<Book> booksReturned = userService.getCheckOutBooks("micky-mouse@example.com");
 
         assertTrue(booksReturned.isEmpty());
-        verify(userRepository, times(1)).findById(1L);
     }
     @Test
     void shouldReturnCheckoutBooksForUser() {
@@ -144,12 +141,11 @@ class UserServiceTest {
                 "micky-mouse@example.com",
                 "encoded-password");
         user.setCheckoutBooks(expectedBooks);
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
 
-        List<Book> booksReturned = userService.getCheckOutBooks(1);
+        List<Book> booksReturned = userService.getCheckOutBooks("micky-mouse@example.com");
 
         assertEquals(booksReturned, expectedBooks);
-        verify(userRepository, times(1)).findById(1L);
     }
 
 
