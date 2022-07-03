@@ -35,6 +35,7 @@
                 <td th:text="${row.numOfCopies}">copies ...</td>
                 <td><input
                         type="checkbox"
+                        th:disabled="${row.numOfCopies}==0"
                         th:field="${user.checkoutBooks}"
                         th:value="${row.id}"/></td>
             </tr>
