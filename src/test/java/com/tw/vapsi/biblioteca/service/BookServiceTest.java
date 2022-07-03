@@ -75,13 +75,5 @@ class BookServiceTest {
         assertTrue(booksReturned.isEmpty());
     }
 
-    @Test
-    void shouldCallBookRepositoryUpdateCopies() {
 
-        bookService.decrementBookCopyByOne(books);
-        long bookId =books.get(0).getId();
-
-        verify(bookRepository,times(1)).updateNoOfCopies(bookId);
-
-    }
 }
