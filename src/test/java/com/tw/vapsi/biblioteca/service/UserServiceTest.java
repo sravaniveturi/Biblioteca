@@ -106,8 +106,11 @@ class UserServiceTest {
         user.setCheckoutBooks(books);
        when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
        when(userRepository.save(any())).thenReturn(user);
+
        List<Book> booksCheckedOut=userService.checkOut(user);
+
        assertEquals(0,booksCheckedOut.get(0).getNumOfCopies());
+       verify(userRepository, times(1)).findByEmail(any());
        verify(userRepository, times(1)).save(user);
 
 

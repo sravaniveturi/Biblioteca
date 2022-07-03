@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -22,6 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = UserController.class)
+@WebAppConfiguration
 class UserControllerTest extends ControllerTestHelper {
     @Autowired
     private MockMvc mockMvc;
@@ -125,19 +128,25 @@ class UserControllerTest extends ControllerTestHelper {
     private String createReasonFor(String parameterName) {
         return "Required request parameter '" + parameterName + "' for method parameter type String is not present";
     }
-    /*@Test
-    void shouldAbleToCheckedOutBooks() throws Exception{
 
-        User user = mock(User.class);
+    @Test
+    void shouldAbleToCheckedOutBooks() throws Exception {
+
+
+        User user = new User(1L, firstName, lastName, email, password);
         when(userService.checkOut(user)).thenReturn(books);
 
-        mockMvc.perform(post("/users/checkout").sessionAttr("user", user))
-                .andExpect(status().isOk());
+        mockMvc.perform(post("/users/checkout").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .sessionAttr("user", user).with(user("userDetails")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("index"))
+                .andExpect(model().attributeExists("welcomeText"))
+                .andExpect(model().attribute("welcomeText", "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!"));
 
 
         verify(userService, times(1)).checkOut(any());
 
-    }*/
+    }
 
 
     @Test
@@ -146,7 +155,7 @@ class UserControllerTest extends ControllerTestHelper {
 
         when(userService.getCheckOutBooks(any())).thenReturn(books);
 
-        mockMvc.perform(get("/users/viewCheckout").with(user("user")))
+        mockMvc.perform(get("/users/viewCheckout").with(user("user")).sessionAttr("user", user))
                 .andExpect(status().isOk())
                 .andExpect(view().name("viewcheckoutbooks"))
                 .andExpect(model().attributeExists("books"));
@@ -157,7 +166,7 @@ class UserControllerTest extends ControllerTestHelper {
     void shouldReturnNoBooksForUserWithNoCheckOutBooks() throws Exception {
         User user = new User(1L, firstName, lastName, email, password);
 
-        List<Book> books= Lists.newArrayList();
+        List<Book> books = Lists.newArrayList();
         when(userService.getCheckOutBooks(any())).thenReturn(books);
 
         mockMvc.perform(get("/users/viewCheckout").with(user("user")))

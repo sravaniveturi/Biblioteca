@@ -33,12 +33,18 @@ public class UserController {
     }
 
     @PostMapping("/checkout")
-    public RedirectView checkout(@ModelAttribute("user")User user , Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    public ModelAndView checkout(@ModelAttribute("user")User userWithCheckedOutBooks ,@AuthenticationPrincipal UserDetails userDetails) {
+        userWithCheckedOutBooks.setEmail(userDetails.getUsername());
+        List<Book> books=userService.checkOut(userWithCheckedOutBooks);
+        ModelAndView mav = new ModelAndView("index");
+        String welcomeText = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
+        mav.addObject("welcomeText", welcomeText);
+        return mav;
 
-        user.setEmail(userDetails.getUsername());
-        List<Book> books=userService.checkOut(user);
-        return new RedirectView("/");
+
+
+       // return new RedirectView("/");
+
     }
 
     @GetMapping("/viewCheckout")
