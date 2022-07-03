@@ -38,16 +38,18 @@
                         th:field="${user.checkoutBooks}"
                         th:value="${row.id}"/></td>
             </tr>
+            <tr>
+                <td>
+                    <button type="submit" class="btn btn-primary">Checkout</button>
+                </td>
+            </tr>
             </tbody>
         </table>
-        <div align="right" class="col-xs-20">
-            <button type="submit" class="btn btn-primary">Checkout</button>
-        </div>
     </form>
     <table class="table table-bordered table-sm mt-2">
         <tbody th:if="${#lists.isEmpty(books)}">
         <tr>
-            <td colspan="3">Sorry!No Books in library</td>
+            <td th:text="${message}"></td>
         </tr>
         </tbody>
     </table>

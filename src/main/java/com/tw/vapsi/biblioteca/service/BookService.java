@@ -17,7 +17,6 @@ public class BookService {
     BookRepository bookRepository;
 
     public List<Book> books() {
-
         List<Book> books = new ArrayList<>();
         bookRepository.findAll(Sort.by(Sort.Direction.ASC, "bookName"))
                 .forEach(books::add);

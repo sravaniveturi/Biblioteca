@@ -13,12 +13,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -39,12 +41,38 @@ class BooksControllerTest extends ControllerTestHelper {
 
     @Test
     @WithMockUser
-    void shouldReturnListOfBooksIfAvailable() throws Exception {
+    void shouldReturnListOfAvailableBooks() throws Exception {
         when(bookService.books()).thenReturn(books);
 
         mockMvc.perform(get("/books"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("books", books));
+                .andExpect(view().name("books"))
+                .andExpect(model().attribute("books", books))
+                .andExpect(model().attribute("books", hasSize(1)))
+                .andExpect(model().attribute("books", hasItem(
+                        allOf(
+                                hasProperty("id", is(1L)),
+                                hasProperty("bookName", is("Harry Potter")),
+                                hasProperty("authorName", is("J.K Rowling")),
+                                hasProperty("yearOfPublication", is(2000)),
+                                hasProperty("numOfCopies", is(1))
+                        )
+                )));
+
+        verify(bookService, times(1)).books();
+    }
+
+    @Test
+    @WithMockUser
+    void shouldReturnMessageWhenNoBooksAvailable() throws Exception {
+        books = new ArrayList<>();
+        when(bookService.books()).thenReturn(books);
+
+        mockMvc.perform(get("/books"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("books"))
+                .andExpect(model().attribute("message", "Sorry no books available"));
+        verify(bookService, times(1)).books();
     }
 
     @Test

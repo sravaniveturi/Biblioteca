@@ -22,14 +22,17 @@ public class BooksController {
     @GetMapping("/books")
     public String books(Model model) {
         List<Book> books = bookService.books();
-        model.addAttribute("books",books);
-        model.addAttribute("user",new User());
-
+        model.addAttribute("user", new User());
+        if (books.isEmpty()) {
+            model.addAttribute("message", "Sorry no books available");
+            return "books";
+        }
+        model.addAttribute("books", books);
         return "books";
     }
 
     @GetMapping("/findbook")
-    public String getBookByBookName(Model model, @RequestParam String name){
+    public String getBookByBookName(Model model, @RequestParam String name) {
         List<Book> books = bookService.findByBookNameOrAuthorName(name);
         model.addAttribute("books", books);
         return "findbook";

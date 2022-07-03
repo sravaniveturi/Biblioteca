@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,9 +35,15 @@ class BookServiceTest {
     @Test
     void shouldReturnAllBooksInLibrary() {
         when(bookRepository.findAll(any(Sort.class))).thenReturn(books);
-
         List<Book> booksReturned = bookService.books();
+        assertEquals(booksReturned, books);
+    }
 
+    @Test
+    void shouldReturnEmptyListWhenNoBooksAvailable() {
+        books = new ArrayList<>();
+        when(bookRepository.findAll(any(Sort.class))).thenReturn(books);
+        List<Book> booksReturned = bookService.books();
         assertEquals(booksReturned, books);
     }
 
