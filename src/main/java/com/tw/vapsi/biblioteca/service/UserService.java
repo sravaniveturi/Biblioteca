@@ -49,9 +49,13 @@ public class UserService implements UserDetailsService {
         for(Book book : user.getCheckoutBooks()){
             book.setNumOfCopies(book.getNumOfCopies()-1);
         }
-        userDetailsFromDataBase.setCheckoutBooks(user.getCheckoutBooks());
+
+        List<Book> books=user.getCheckoutBooks();
+        books.addAll(userDetailsFromDataBase.getCheckoutBooks());
+
+        userDetailsFromDataBase.setCheckoutBooks(books);
         User userUpdatedWithCheckoutBooks= userRepository.save(userDetailsFromDataBase);
-        return userDetailsFromDataBase.getCheckoutBooks();
+        return userUpdatedWithCheckoutBooks.getCheckoutBooks();
     }
 
     public User findByEmail(String email){
