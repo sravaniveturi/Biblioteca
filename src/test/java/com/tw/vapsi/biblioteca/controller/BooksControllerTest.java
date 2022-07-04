@@ -84,7 +84,7 @@ class BooksControllerTest extends ControllerTestHelper {
                         .param("name", "Harry"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
-                .andExpect(view().name("findbook"));
+                .andExpect(view().name("viewcheckoutbooks"));
     }
 
     @Test
@@ -96,7 +96,7 @@ class BooksControllerTest extends ControllerTestHelper {
                         .param("name", "Harry"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
-                .andExpect(view().name("findbook"));
+                .andExpect(view().name("viewcheckoutbooks"));
     }
 
     @Test
@@ -108,7 +108,7 @@ class BooksControllerTest extends ControllerTestHelper {
                         .param("name", "Rowling"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
-                .andExpect(view().name("findbook"));
+                .andExpect(view().name("viewcheckoutbooks"));
     }
 
     @Test
@@ -120,6 +120,6 @@ class BooksControllerTest extends ControllerTestHelper {
                         .param("name", "Rowling"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", Lists.newArrayList()))
-                .andExpect(view().name("findbook"));
+                .andExpect(view().name("viewcheckoutbooks"));
     }
 }
