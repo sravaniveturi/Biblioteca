@@ -95,17 +95,23 @@ class UserServiceTest {
         verify(userRepository, times(1)).save(userToBeCreated);
     }
 
- // @Test
- /*   void shouldCheckOutBooksForUser() {
+  @Test
+   void shouldCheckOutBooksForUser() {
         User user = new User(
                 "Micky",
                 "Mouse",
                 "micky-mouse@example.com",
                 "encoded-password");
+
+      User userFromDB = new User(
+              "Micky",
+              "Mouse",
+              "micky-mouse@example.com",
+              "encoded-password");
         List<Book> books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
         user.setCheckoutBooks(books);
-       when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
-       when(userRepository.save(any())).thenReturn(user);
+       when(userRepository.findByEmail(any())).thenReturn(Optional.of(userFromDB));
+       when(userRepository.save(any())).thenReturn(userFromDB);
 
        List<Book> booksCheckedOut=userService.checkOut(user);
 
@@ -115,7 +121,7 @@ class UserServiceTest {
 
 
 
-    }*/
+    }
 
     @Test
     void shouldReturnEmptyListForUserWithNoCheckOutBooks() {
