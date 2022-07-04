@@ -5,13 +5,21 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .classlinkbook1{align:center;font-family:Times;font-size:20px;color:black}
+        .classlinkbook2{margin-left:500px;padding-right:35px}
+        .classlinkcheckout{padding-left:30px}
+    </style>
 </head>
 <body>
 <div class="content-main">
-    <h1 align="center">Biblioteca</h1>
-    <h2 align="center" th:text="${welcomeText}">Welcome ...</h2>
+    </br>
+    <h1 align="center">Biblioteca </h1>
+    </br>
+    <h2 align="center" th:text="${welcomeText}">Welcome ...  </h2>
 </div>
 <div class="content-secondary">
+<<<<<<< HEAD
     <table align="center">
         <tr>
             <td align="center"><a href="#" th:href="@{/books}" align="center">View All books</a></td>
@@ -22,6 +30,11 @@
     </table>
 
 
+=======
+    </br></br>
+    <a  href="#" th:href="@{/books}" class="classlinkbook1 classlinkbook2" >View All books</a>|
+    <a  href="#" th:href="@{/users/viewCheckout}" class ="classlinkbook1 classlinkcheckout" >View Your Checkout books</a>
+>>>>>>> ed131ae (Added additional style to index page and replaced the brackets with paranthesis in create table)
 </div>
 
 </body>
