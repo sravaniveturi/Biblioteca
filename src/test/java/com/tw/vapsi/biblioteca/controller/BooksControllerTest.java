@@ -127,19 +127,13 @@ class BooksControllerTest extends ControllerTestHelper {
 
     @Test
     void shouldAbleToCheckedOutBooks() throws Exception {
-
-
         User user = new User(1L, "Micky", "Mouse", "test-mail@test.com", "password@123");
         when(bookService.checkOut(user)).thenReturn(books);
 
         mockMvc.perform(post("/checkout").contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .sessionAttr("user", user).with(user("userDetails")))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("welcomeText"))
-                .andExpect(model().attribute("welcomeText", "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!"));
-
-
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/users/viewCheckout"));
         verify(bookService, times(1)).checkOut(any());
 
     }
