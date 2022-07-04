@@ -23,7 +23,6 @@
                 <th>Book Name</th>
                 <th>Author Name</th>
                 <th>Year Of Publication</th>
-                <th>Number Of Copies</th>
                 <th>Return</th>
             <tr>
             </thead>
@@ -32,7 +31,6 @@
                 <td th:text="${row.bookName}">Title ...</td>
                 <td th:text="${row.authorName}">authorName ...</td>
                 <td th:text="${row.yearOfPublication}">yearOfPublication ...</td>
-                <td th:text="${row.numOfCopies}">copies ...</td>
                 <td align="center"> <input
                         type="checkbox"
                         th:value="${row.id}"/></td>
