@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,7 +22,6 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-
 class UserServiceTest {
     @Mock
     private UserRepository userRepository;
@@ -33,10 +31,6 @@ class UserServiceTest {
     @Mock
     private BookService bookService;
     private UserService userService;
-
-
-
-
 
 
     @BeforeEach
@@ -95,33 +89,7 @@ class UserServiceTest {
         verify(userRepository, times(1)).save(userToBeCreated);
     }
 
-  @Test
-   void shouldCheckOutBooksForUser() {
-        User user = new User(
-                "Micky",
-                "Mouse",
-                "micky-mouse@example.com",
-                "encoded-password");
 
-      User userFromDB = new User(
-              "Micky",
-              "Mouse",
-              "micky-mouse@example.com",
-              "encoded-password");
-        List<Book> books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
-        user.setCheckoutBooks(books);
-       when(userRepository.findByEmail(any())).thenReturn(Optional.of(userFromDB));
-       when(userRepository.save(any())).thenReturn(userFromDB);
-
-       List<Book> booksCheckedOut=userService.checkOut(user);
-
-       assertEquals(0,booksCheckedOut.get(0).getNumOfCopies());
-       verify(userRepository, times(1)).findByEmail(any());
-       verify(userRepository, times(1)).save(user);
-
-
-
-    }
 
     @Test
     void shouldReturnEmptyListForUserWithNoCheckOutBooks() {
@@ -137,9 +105,10 @@ class UserServiceTest {
 
         assertTrue(booksReturned.isEmpty());
     }
+
     @Test
     void shouldReturnCheckoutBooksForUser() {
-        List<Book> expectedBooks = Arrays.asList(new Book(1, "abc","abc",1,12));
+        List<Book> expectedBooks = Arrays.asList(new Book(1, "abc", "abc", 1, 12));
         User user = new User(
                 1L,
                 "Micky",
@@ -153,9 +122,6 @@ class UserServiceTest {
 
         assertEquals(booksReturned, expectedBooks);
     }
-
-
-
 
 
 }

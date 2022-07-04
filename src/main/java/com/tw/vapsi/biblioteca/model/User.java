@@ -15,16 +15,8 @@ public class User {
     private String lastName;
     private String email;
     private String password;
-    @OneToMany
-    private List<Book> checkoutBooks =new ArrayList<>();
-
-    public List<Book> getCheckoutBooks() {
-        return checkoutBooks;
-    }
-
-    public void setCheckoutBooks(List<Book> checkoutBooks) {
-        this.checkoutBooks = checkoutBooks;
-    }
+    @ManyToMany
+    private List<Book> checkoutBooks = new ArrayList<>();
 
     public User(long id, String firstName, String lastName, String email, String password) {
 
@@ -45,6 +37,14 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public List<Book> getCheckoutBooks() {
+        return checkoutBooks;
+    }
+
+    public void setCheckoutBooks(List<Book> checkoutBooks) {
+        this.checkoutBooks = checkoutBooks;
     }
 
     public long getId() {
@@ -103,5 +103,20 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, email, password);
+    }
+
+    public  void mapBooks(User userDetailsFromDataBase) {
+
+        List<Book> books = this.checkoutBooks;
+        books.addAll(userDetailsFromDataBase.checkoutBooks);
+
+        userDetailsFromDataBase.checkoutBooks=books;
+    }
+
+
+    public void decrementCopies() {
+        for (Book book : this.checkoutBooks) {
+            book.decrementNoOfCopiesForCheckedOutBooks();
+        }
     }
 }

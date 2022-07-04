@@ -11,13 +11,13 @@
     <h2 align="center">Welcome to the Books page</h2>
 
     <div align="right">
-        <form th:action="@{/findbook}" method="get">
-            <input type="text" name="name" th:value="${name}" placeholder="Find by Book or Author Name" size="30">
-            <button type="submit" class="btn btn-primary">Search</button>
+        <form method="get" th:action="@{/findbook}">
+            <input name="name" placeholder="Find by Book or Author Name" size="30" th:value="${name}" type="text">
+            <button class="btn btn-primary" type="submit">Search</button>
         </form>
     </div>
 
-    <form th:action="@{/users/checkout}" th:object="${user}" method="POST">
+    <form method="POST" th:action="@{/checkout}" th:object="${user}">
         <table class="table table-bordered table-striped">
             <thead th:if="${not #lists.isEmpty(books)}">
             <tr>
@@ -35,17 +35,17 @@
                 <td th:text="${row.yearOfPublication}">yearOfPublication ...</td>
                 <td th:text="${row.numOfCopies}">copies ...</td>
                 <td><input
-                        type="checkbox"
                         th:disabled="${row.numOfCopies}==0"
                         th:field="${user.checkoutBooks}"
-                        th:value="${row.id}"/></td>
+                        th:value="${row.id}"
+                        type="checkbox"/></td>
             </tr>
 
             </tbody>
         </table>
 
         <div align="right" class="col-xs-20">
-            <button type="submit" class="btn btn-primary">Checkout</button>
+            <button class="btn btn-primary" type="submit">Checkout</button>
         </div>
 
     </form>

@@ -9,6 +9,7 @@
         .classlinkbook1{align:center;font-family:Times;font-size:20px;color:black}
         .classlinkbook2{margin-left:500px;padding-right:35px}
         .classlinkcheckout{padding-left:30px}
+
     </style>
 </head>
 <body>
@@ -16,15 +17,16 @@
     </br>
     <h1 align="center">Biblioteca </h1>
     </br>
-    <h2 align="center" th:text="${welcomeText}">Welcome ...  </h2>
+    <h2 align="center" th:text="${welcomeText}">Welcome ... </h2>
 </div>
 <div class="content-secondary">
     <table align="center">
         <tr>
-            <td align="center"><a href="#" th:href="@{/books}" align="center">View All books</a></td>
+            <td align="center"><a align="center" href="#" th:href="@{/books}">View All books</a></td>
         </tr>
         <tr>
-            <td align="center"><a href="#" th:href="@{/users/viewCheckout}" align="center">View Your Checkout books</a></td>
+            <td align="center"><a align="center" href="#" th:href="@{/users/viewCheckout}">View Your Checkout books</a>
+            </td>
         </tr>
     </table>
 

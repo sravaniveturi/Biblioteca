@@ -18,12 +18,10 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-
     public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-
 
 
     @Override
@@ -40,25 +38,13 @@ public class UserService implements UserDetailsService {
     }
 
     public List<Book> getCheckOutBooks(String email) {
-       User user = findByEmail(email);
-       return  user.getCheckoutBooks();
+        User user = findByEmail(email);
+        return user.getCheckoutBooks();
     }
 
-    public List<Book> checkOut(User user) {
-        User userDetailsFromDataBase = userRepository.findByEmail(user.getEmail()).get();
-        for(Book book : user.getCheckoutBooks()){
-            book.setNumOfCopies(book.getNumOfCopies()-1);
-        }
 
-        List<Book> books=user.getCheckoutBooks();
-        books.addAll(userDetailsFromDataBase.getCheckoutBooks());
 
-        userDetailsFromDataBase.setCheckoutBooks(books);
-        User userUpdatedWithCheckoutBooks= userRepository.save(userDetailsFromDataBase);
-        return userUpdatedWithCheckoutBooks.getCheckoutBooks();
-    }
-
-    public User findByEmail(String email){
+    public User findByEmail(String email) {
         return userRepository.findByEmail(email).get();
     }
 }

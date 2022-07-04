@@ -10,9 +10,9 @@
     <h2 align="center">Your Checkout Books</h2>
 
     <div align="right">
-        <form th:action="@{/findbook}" method="get">
-            <input type="text" name="name" th:value="${name}" placeholder="Find by Book or Author Name" size="30">
-            <button type="submit" class="btn btn-primary">Search</button>
+        <form method="get" th:action="@{/findbook}">
+            <input name="name" placeholder="Find by Book or Author Name" size="30" th:value="${name}" type="text">
+            <button class="btn btn-primary" type="submit">Search</button>
         </form>
     </div>
 
@@ -31,14 +31,14 @@
                 <td th:text="${row.bookName}">Title ...</td>
                 <td th:text="${row.authorName}">authorName ...</td>
                 <td th:text="${row.yearOfPublication}">yearOfPublication ...</td>
-                <td align="center"> <input
-                        type="checkbox"
-                        th:value="${row.id}"/></td>
+                <td align="center"><input
+                        th:value="${row.id}"
+                        type="checkbox"/></td>
             </tr>
             </tbody>
         </table>
         <div align="right" th:if="${not #lists.isEmpty(books)}">
-            <button type="submit" class="btn btn-primary">Return</button>
+            <button class="btn btn-primary" type="submit">Return</button>
         </div>
     </form>
     <table class="table table-bordered table-sm mt-2">
@@ -48,8 +48,8 @@
         </tr>
         </tbody>
     </table>
-    <a href="#" th:href="@{/books/}" >View All Books</a>
-    <p><a href="#" th:href="@{/}" >Home</a> </p>
+    <a href="#" th:href="@{/books/}">View All Books</a>
+    <p><a href="#" th:href="@{/}">Home</a></p>
 </div>
 </body>
 </html>

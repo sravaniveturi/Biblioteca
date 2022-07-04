@@ -8,30 +8,30 @@
 <body>
 <div class="container mt-5">
     <h2 align="center">Welcome to the Book details page</h2>
-<table class="table table-bordered table-striped">
-    <thead th:if="${not #lists.isEmpty(books)}">
-    <tr>
-        <th>Book Name</th>
-        <th>Author Name</th>
-        <th>Year Of Publication</th>
-        <th>Number Of Copies</th>
-    </tr>
-    </thead>
-    <tbody th:if="${not #lists.isEmpty(books)}">
-    <tr th:each="book : ${books}">
-        <td th:text="${book.bookName}">Title ...</a></td>
-        <td th:text="${book.authorName}">authorName ...</td>
-        <td th:text="${book.yearOfPublication}">yearOfPublication ...</td>
-        <td th:text="${book.numOfCopies}">copies ...</td>
-    </tr>
-    </tbody>
-    <tbody th:if="${#lists.isEmpty(books)}">
-    <tr>
-        <td colspan="3">Sorry! No books found with the specified book name or Author name.</td>
-    </tr>
-    </tbody>
-</table>
-    <a href="#" th:href="@{/books/}" >View All Books</a>
+    <table class="table table-bordered table-striped">
+        <thead th:if="${not #lists.isEmpty(books)}">
+        <tr>
+            <th>Book Name</th>
+            <th>Author Name</th>
+            <th>Year Of Publication</th>
+            <th>Number Of Copies</th>
+        </tr>
+        </thead>
+        <tbody th:if="${not #lists.isEmpty(books)}">
+        <tr th:each="book : ${books}">
+            <td th:text="${book.bookName}">Title ...</a></td>
+            <td th:text="${book.authorName}">authorName ...</td>
+            <td th:text="${book.yearOfPublication}">yearOfPublication ...</td>
+            <td th:text="${book.numOfCopies}">copies ...</td>
+        </tr>
+        </tbody>
+        <tbody th:if="${#lists.isEmpty(books)}">
+        <tr>
+            <td colspan="3">Sorry! No books found with the specified book name or Author name.</td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="#" th:href="@{/books/}">View All Books</a>
 </div>
 
 </body>

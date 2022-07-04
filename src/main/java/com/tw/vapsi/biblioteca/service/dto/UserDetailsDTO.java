@@ -12,13 +12,13 @@ import java.util.Objects;
 
 public class UserDetailsDTO implements UserDetails {
 
-    private final String userName;
-    private final String password;
-    private final List<SimpleGrantedAuthority> authorities;
     private static final List<SimpleGrantedAuthority> simpleGrantedAuthorities = Arrays.asList(
             new SimpleGrantedAuthority("ROLE_USER"),
             new SimpleGrantedAuthority("ROLE_LIBRARIAN")
     );
+    private final String userName;
+    private final String password;
+    private final List<SimpleGrantedAuthority> authorities;
 
     public UserDetailsDTO(String userName, String password, List<SimpleGrantedAuthority> authorities) {
 

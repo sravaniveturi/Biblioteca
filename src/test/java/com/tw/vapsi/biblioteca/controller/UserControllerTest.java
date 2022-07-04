@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -129,24 +128,7 @@ class UserControllerTest extends ControllerTestHelper {
         return "Required request parameter '" + parameterName + "' for method parameter type String is not present";
     }
 
-    @Test
-    void shouldAbleToCheckedOutBooks() throws Exception {
 
-
-        User user = new User(1L, firstName, lastName, email, password);
-        when(userService.checkOut(user)).thenReturn(books);
-
-        mockMvc.perform(post("/users/checkout").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .sessionAttr("user", user).with(user("userDetails")))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("welcomeText"))
-                .andExpect(model().attribute("welcomeText", "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!"));
-
-
-        verify(userService, times(1)).checkOut(any());
-
-    }
 
 
     @Test

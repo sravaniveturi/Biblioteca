@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -27,5 +26,9 @@ public class Book {
     private int yearOfPublication;
 
     private int numOfCopies;
+
+    public void decrementNoOfCopiesForCheckedOutBooks() {
+        this.numOfCopies--;
+    }
 
 }

@@ -3,6 +3,7 @@ package com.tw.vapsi.biblioteca.controller;
 
 import com.tw.vapsi.biblioteca.controller.helper.ControllerTestHelper;
 import com.tw.vapsi.biblioteca.model.Book;
+import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -17,22 +19,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @WebMvcTest(controllers = BooksController.class)
 class BooksControllerTest extends ControllerTestHelper {
-    @Autowired
-    private MockMvc mockMvc;
-
     @MockBean
     BookService bookService;
     List<Book> books;
+    @Autowired
+    private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
@@ -122,4 +124,24 @@ class BooksControllerTest extends ControllerTestHelper {
                 .andExpect(model().attribute("books", Lists.newArrayList()))
                 .andExpect(view().name("viewcheckoutbooks"));
     }
+
+    @Test
+    void shouldAbleToCheckedOutBooks() throws Exception {
+
+
+        User user = new User(1L, "Micky", "Mouse", "test-mail@test.com", "password@123");
+        when(bookService.checkOut(user)).thenReturn(books);
+
+        mockMvc.perform(post("/checkout").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .sessionAttr("user", user).with(user("userDetails")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("index"))
+                .andExpect(model().attributeExists("welcomeText"))
+                .andExpect(model().attribute("welcomeText", "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!"));
+
+
+        verify(bookService, times(1)).checkOut(any());
+
+    }
+
 }
