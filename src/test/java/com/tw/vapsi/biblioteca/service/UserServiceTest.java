@@ -95,8 +95,8 @@ class UserServiceTest {
         verify(userRepository, times(1)).save(userToBeCreated);
     }
 
-   @Test
-    void shouldCheckOutBooksForUser() {
+ // @Test
+ /*   void shouldCheckOutBooksForUser() {
         User user = new User(
                 "Micky",
                 "Mouse",
@@ -115,7 +115,7 @@ class UserServiceTest {
 
 
 
-    }
+    }*/
 
     @Test
     void shouldReturnEmptyListForUserWithNoCheckOutBooks() {
