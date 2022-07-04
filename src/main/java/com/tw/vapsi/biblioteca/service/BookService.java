@@ -24,8 +24,11 @@ public class BookService {
     }
 
     public List<Book> findByBookNameOrAuthorName(String name) {
-        List<Book> books = bookRepository.findByBookNameContainingIgnoreCase(name);
-        bookRepository.findByAuthorNameContainingIgnoreCase(name).forEach(books::add);
+        List<Book> books = new ArrayList<>();
+        if(name != null) {
+            books = bookRepository.findByBookNameContainingIgnoreCase(name);
+            bookRepository.findByAuthorNameContainingIgnoreCase(name).forEach(books::add);
+        }
         return books;
     }
 
