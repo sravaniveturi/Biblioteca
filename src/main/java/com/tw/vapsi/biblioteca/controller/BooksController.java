@@ -41,20 +41,30 @@ public class BooksController {
     public String getBookByBookName(Model model, @RequestParam String name) {
         List<Book> books = bookService.findByBookNameOrAuthorName(name);
         model.addAttribute("books", books);
-        return "viewcheckoutbooks";
+        return "findbook";
     }
 
     @PostMapping("/checkout")
-    public String checkout(@ModelAttribute("user") User userWithCheckedOutBooks, @AuthenticationPrincipal UserDetails userDetails) {
-        userWithCheckedOutBooks.setEmail(userDetails.getUsername());
-        bookService.returnBooks(userWithCheckedOutBooks);
-        return "redirect:/users/viewCheckout";
+    public String checkout(@ModelAttribute("User") @NotNull User user, @AuthenticationPrincipal UserDetails currentUser) {
+        List<Book> checkoutBooks = user.getCheckoutBooks();
+        boolean status= bookService.updateCopies(checkoutBooks);
+        if(status) {
+            userService.checkOut(checkoutBooks, currentUser.getUsername());
+            return "redirect:/viewCheckout";
+        }
+        return "/books";
     }
-    @PostMapping("/return")
-    public String returnBooks(@ModelAttribute("user") User userWithCheckedOutBooks, @AuthenticationPrincipal UserDetails userDetails) {
-        userWithCheckedOutBooks.setEmail(userDetails.getUsername());
-        bookService.returnBooks(userWithCheckedOutBooks);
-        return "redirect:/users/viewCheckout";
+
+    @GetMapping("/viewCheckout")
+    public ModelAndView getCheckOutBooks(@AuthenticationPrincipal UserDetails user) {
+
+        ModelAndView mav = new ModelAndView("viewcheckoutbooks");
+        List<Book> books = userService.getCheckOutBooks(user.getUsername());
+        if (books.isEmpty()) {
+            mav.addObject("errorMessage", "No books checked out by user.");
+        }
+        mav.addObject("books", books);
+        return mav;
     }
 
 }
