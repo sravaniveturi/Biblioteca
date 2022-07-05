@@ -90,4 +90,9 @@ class BookServiceTest {
         assertTrue(booksReturned.isEmpty());
     }
 
+    @Test
+    void shouldDecrementCopiesWhenBookIsAvailable(){
+
+    }
+
 }

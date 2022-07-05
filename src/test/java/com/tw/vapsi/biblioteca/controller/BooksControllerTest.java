@@ -88,7 +88,7 @@ class BooksControllerTest extends ControllerTestHelper {
                         .param("name", "Harry"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
-                .andExpect(view().name("viewcheckoutbooks"));
+                .andExpect(view().name("findbook"));
     }
 
     @Test
@@ -100,7 +100,7 @@ class BooksControllerTest extends ControllerTestHelper {
                         .param("name", "Harry"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
-                .andExpect(view().name("viewcheckoutbooks"));
+                .andExpect(view().name("findbook"));
     }
 
     @Test
@@ -112,7 +112,7 @@ class BooksControllerTest extends ControllerTestHelper {
                         .param("name", "Rowling"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
-                .andExpect(view().name("viewcheckoutbooks"));
+                .andExpect(view().name("findbook"));
     }
 
     @Test
@@ -124,7 +124,7 @@ class BooksControllerTest extends ControllerTestHelper {
                         .param("name", "Rowling"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", Lists.newArrayList()))
-                .andExpect(view().name("viewcheckoutbooks"));
+                .andExpect(view().name("findbook"));
     }
 
     @Test
@@ -137,7 +137,7 @@ class BooksControllerTest extends ControllerTestHelper {
 
         mockMvc.perform(post("/checkout").with(user("user")))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/users/viewCheckout"));
+                .andExpect(redirectedUrl("/viewcheckoutbooks"));
 
     }
 

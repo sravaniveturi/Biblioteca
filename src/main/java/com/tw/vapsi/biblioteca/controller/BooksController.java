@@ -41,7 +41,7 @@ public class BooksController {
     public String getBookByBookName(Model model, @RequestParam String name) {
         List<Book> books = bookService.findByBookNameOrAuthorName(name);
         model.addAttribute("books", books);
-        return "viewcheckoutbooks";
+        return "findbook";
     }
 
     @PostMapping("/checkout")
@@ -50,7 +50,7 @@ public class BooksController {
         boolean status= bookService.updateCopies(checkoutBooks);
        if(status) {
            userService.checkOut(checkoutBooks, currentUser.getUsername());
-           return "redirect:/users/viewCheckout";
+           return "redirect:/viewcheckoutbooks";
        }
        return "/books";
     }
