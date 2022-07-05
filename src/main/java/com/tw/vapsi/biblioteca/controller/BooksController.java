@@ -45,7 +45,7 @@ public class BooksController {
     }
 
     @PostMapping("/checkout")
-    public String checkout(@ModelAttribute("User") @NotNull User user, @AuthenticationPrincipal UserDetails currentUser) {
+    public String checkout(@ModelAttribute("User") User user, @AuthenticationPrincipal UserDetails currentUser) {
         List<Book> checkoutBooks = user.getCheckoutBooks();
         boolean status= bookService.updateCopies(checkoutBooks);
         if(status) {
@@ -56,7 +56,7 @@ public class BooksController {
     }
 
     @GetMapping("/viewCheckout")
-    public ModelAndView getCheckOutBooks(@AuthenticationPrincipal UserDetails user) {
+    public ModelAndView getCheckOutBooks(@ModelAttribute("user") User userWithCheckedOutBooks,@AuthenticationPrincipal UserDetails user) {
 
         ModelAndView mav = new ModelAndView("viewcheckoutbooks");
         List<Book> books = userService.getCheckOutBooks(user.getUsername());
