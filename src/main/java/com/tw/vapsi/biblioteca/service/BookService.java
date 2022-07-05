@@ -30,11 +30,11 @@ public class BookService {
 
     public List<Book> findByBookNameOrAuthorName(String name) {
         List<Book> books = new ArrayList<>();
-        if(!name.isEmpty() || name.trim().isEmpty()) {
+        if(!name.trim().isEmpty()){
             books = bookRepository.findByBookNameContainingIgnoreCase(name);
             bookRepository.findByAuthorNameContainingIgnoreCase(name).forEach(books::add);
         }
-        return books;
+      return books;
     }
 
 

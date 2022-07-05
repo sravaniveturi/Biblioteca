@@ -26,27 +26,28 @@ public class BooksController {
     UserService userService;
 
     @GetMapping("/books")
-    public String books(Model model) {
-        List<Book> books = bookService.books();
+    public String books(Model model,@RequestParam(required = false) String name) {
+        List<Book> books = getBooks(name);
         model.addAttribute("user", new User());
         if (books.isEmpty()) {
-            model.addAttribute("message", "Sorry no books available");
+            model.addAttribute("message", "Sorry No Books available");
             return "books";
         }
         model.addAttribute("books", books);
         return "books";
     }
 
-    @GetMapping("/findbook")
-    public String getBookByBookName(Model model, @RequestParam String name) {
-        List<Book> books = bookService.findByBookNameOrAuthorName(name);
-        model.addAttribute("books", books);
-        return "findbook";
+    private List<Book> getBooks(String name){
+        if (name != null){
+            return bookService.findByBookNameOrAuthorName(name.trim());
+        }
+        return bookService.books();
     }
 
     @PostMapping("/checkout")
     public String checkout(@ModelAttribute("User") User user, @AuthenticationPrincipal UserDetails currentUser) {
         List<Book> checkoutBooks = user.getCheckoutBooks();
+
         boolean status= bookService.updateCopies(checkoutBooks);
         if(status) {
             userService.checkOut(checkoutBooks, currentUser.getUsername());
@@ -56,9 +57,10 @@ public class BooksController {
     }
 
     @GetMapping("/viewCheckout")
-    public ModelAndView getCheckOutBooks(@ModelAttribute("user") User userWithCheckedOutBooks,@AuthenticationPrincipal UserDetails user) {
+    public ModelAndView getCheckOutBooks(@AuthenticationPrincipal UserDetails user) {
 
         ModelAndView mav = new ModelAndView("viewcheckoutbooks");
+        mav.addObject("user", new User());
         List<Book> books = userService.getCheckOutBooks(user.getUsername());
         if (books.isEmpty()) {
             mav.addObject("errorMessage", "No books checked out by user.");
