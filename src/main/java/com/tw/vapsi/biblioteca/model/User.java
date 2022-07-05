@@ -109,13 +109,6 @@ public class User {
         checkoutBooks.addAll(books);
     }
 
-
-    public void decrementCopies() {
-        for (Book book : this.checkoutBooks) {
-            book.decrementNoOfCopiesForCheckedOutBooks();
-        }
-    }
-
     public void returnBooks(User user) {
       for(Book book:user.checkoutBooks){
           this.checkoutBooks.remove(book);
