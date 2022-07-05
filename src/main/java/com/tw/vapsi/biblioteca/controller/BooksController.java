@@ -50,7 +50,7 @@ public class BooksController {
         boolean status= bookService.updateCopies(checkoutBooks);
        if(status) {
            userService.checkOut(checkoutBooks, currentUser.getUsername());
-           return "redirect:/viewcheckoutbooks";
+           return "redirect:/viewCheckout";
        }
        return "/books";
     }

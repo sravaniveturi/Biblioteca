@@ -137,7 +137,7 @@ class BooksControllerTest extends ControllerTestHelper {
 
         mockMvc.perform(post("/checkout").with(user("user")))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/viewcheckoutbooks"));
+                .andExpect(redirectedUrl("/viewCheckout"));
 
     }
 

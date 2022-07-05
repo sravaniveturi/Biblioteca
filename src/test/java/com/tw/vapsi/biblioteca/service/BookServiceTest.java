@@ -17,8 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -92,7 +91,9 @@ class BookServiceTest {
 
     @Test
     void shouldDecrementCopiesWhenBookIsAvailable(){
+        Book book = new Book(1, "Harry","J K Rowling", 1, 1988);
 
+        assertThrows(Exception.class, ()->bookService.updateCopies(Arrays.asList(book)));
     }
 
 }
