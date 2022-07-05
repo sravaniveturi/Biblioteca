@@ -166,4 +166,15 @@ class BooksControllerTest extends ControllerTestHelper {
 
     }
 
+    @Test
+    void shouldAbleToReturnCheckedOutBooks() throws Exception {
+        User user = new User(1L, "Micky", "Mouse", "test-mail@test.com", "password@123");
+
+        mockMvc.perform(post("/return").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .sessionAttr("user", user).with(user("userDetails")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/users/viewCheckout"));
+        verify(bookService, times(1)).returnBooks(any());
+
+    }
 }

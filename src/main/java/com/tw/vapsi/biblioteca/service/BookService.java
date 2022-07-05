@@ -49,5 +49,13 @@ public class BookService {
             return false;
         }
     }
+    public void returnBooks(User user){
+        User userDetailsFromDataBase = userRepository.findByEmail(user.getEmail()).get();
+        userDetailsFromDataBase.returnBooks(user);
+        User userUpdatedWithCheckoutBooks = userRepository.save(userDetailsFromDataBase);
+
+    }
+
+
 }
 

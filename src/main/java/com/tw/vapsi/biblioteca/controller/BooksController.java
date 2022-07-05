@@ -41,7 +41,7 @@ public class BooksController {
     public String getBookByBookName(Model model, @RequestParam String name) {
         List<Book> books = bookService.findByBookNameOrAuthorName(name);
         model.addAttribute("books", books);
-        return "findbook";
+        return "viewcheckoutbooks";
     }
 
     @PostMapping("/checkout")
@@ -65,6 +65,16 @@ public class BooksController {
         }
         mav.addObject("books", books);
         return mav;
+    public String checkout(@ModelAttribute("user") User userWithCheckedOutBooks, @AuthenticationPrincipal UserDetails userDetails) {
+        userWithCheckedOutBooks.setEmail(userDetails.getUsername());
+        bookService.returnBooks(userWithCheckedOutBooks);
+        return "redirect:/users/viewCheckout";
+    }
+    @PostMapping("/return")
+    public String returnBooks(@ModelAttribute("user") User userWithCheckedOutBooks, @AuthenticationPrincipal UserDetails userDetails) {
+        userWithCheckedOutBooks.setEmail(userDetails.getUsername());
+        bookService.returnBooks(userWithCheckedOutBooks);
+        return "redirect:/users/viewCheckout";
     }
 
 }

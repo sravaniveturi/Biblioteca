@@ -16,7 +16,7 @@
         </form>
     </div>
 
-    <form action="#">
+    <form method="POST" th:action="@{/return}" th:object="${user}">
         <table class="table  table-bordered table-striped">
             <thead th:if="${not #lists.isEmpty(books)}">
             <tr>
@@ -32,6 +32,7 @@
                 <td th:text="${row.authorName}">authorName ...</td>
                 <td th:text="${row.yearOfPublication}">yearOfPublication ...</td>
                 <td align="center"><input
+                        th:field="${user.checkoutBooks}"
                         th:value="${row.id}"
                         type="checkbox"/></td>
             </tr>
