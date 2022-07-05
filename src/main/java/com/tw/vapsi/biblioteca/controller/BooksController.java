@@ -45,26 +45,10 @@ public class BooksController {
     }
 
     @PostMapping("/checkout")
-    public String checkout(@ModelAttribute("User") @NotNull User user, @AuthenticationPrincipal UserDetails currentUser) {
-        List<Book> checkoutBooks = user.getCheckoutBooks();
-        boolean status= bookService.updateCopies(checkoutBooks);
-       if(status) {
-           userService.checkOut(checkoutBooks, currentUser.getUsername());
-           return "redirect:/viewCheckout";
-       }
-       return "/books";
-    }
-
-    @GetMapping("/viewCheckout")
-    public ModelAndView getCheckOutBooks(@AuthenticationPrincipal UserDetails user) {
-
-        ModelAndView mav = new ModelAndView("viewcheckoutbooks");
-        List<Book> books = userService.getCheckOutBooks(user.getUsername());
-        if (books.isEmpty()) {
-            mav.addObject("errorMessage", "No books checked out by user.");
-        }
-        mav.addObject("books", books);
-        return mav;
+    public String checkout(@ModelAttribute("user") User userWithCheckedOutBooks, @AuthenticationPrincipal UserDetails userDetails) {
+        userWithCheckedOutBooks.setEmail(userDetails.getUsername());
+        bookService.returnBooks(userWithCheckedOutBooks);
+        return "redirect:/users/viewCheckout";
     }
     @PostMapping("/return")
     public String returnBooks(@ModelAttribute("user") User userWithCheckedOutBooks, @AuthenticationPrincipal UserDetails userDetails) {
