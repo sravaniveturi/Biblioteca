@@ -89,11 +89,5 @@ class BookServiceTest {
         assertTrue(booksReturned.isEmpty());
     }
 
-    @Test
-    void shouldDecrementCopiesWhenBookIsAvailable(){
-        Book book = new Book(1, "Harry","J K Rowling", 1, 1988);
-
-        assertThrows(Exception.class, ()->bookService.updateCopies(Arrays.asList(book)));
-    }
 
 }
