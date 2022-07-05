@@ -66,5 +66,13 @@ public class BooksController {
         mav.addObject("books", books);
         return mav;
     }
+    @PostMapping("/return")
+    public String returnBooks(@ModelAttribute("user") User userWithCheckedOutBooks, @AuthenticationPrincipal UserDetails userDetails) {
+        userWithCheckedOutBooks.setEmail(userDetails.getUsername());
+        bookService.returnBooks(userWithCheckedOutBooks);
+        return "redirect:/users/viewCheckout";
+    }
+
+
 
 }
