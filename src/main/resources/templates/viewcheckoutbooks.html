@@ -42,7 +42,7 @@
             <button class="btn btn-primary" type="submit">Return</button>
         </div>
     </form>
-    <table class="table table-bordered table-sm mt-2">
+    <table>
         <tbody th:if="${#lists.isEmpty(books)}">
         <tr>
             <td colspan="3" th:text="${errorMessage}">Sorry!No Books in library</td>

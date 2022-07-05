@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 
@@ -26,20 +27,20 @@ public class BooksController {
     UserService userService;
 
     @GetMapping("/books")
-    public String books(Model model,@RequestParam(required = false) String name) {
+    public String books(Model model,@RequestParam Optional<String> name) {
         List<Book> books = getBooks(name);
         model.addAttribute("user", new User());
         if (books.isEmpty()) {
-            model.addAttribute("message", "Sorry No Books available");
+            model.addAttribute("message", "Sorry No Books available.");
             return "books";
         }
         model.addAttribute("books", books);
         return "books";
     }
 
-    private List<Book> getBooks(String name){
-        if (name != null){
-            return bookService.findByBookNameOrAuthorName(name.trim());
+    private List<Book> getBooks(Optional<String> name){
+        if (name.isPresent()){
+            return bookService.findByBookNameOrAuthorName(name.get());
         }
         return bookService.books();
     }

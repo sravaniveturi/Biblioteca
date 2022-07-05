@@ -44,13 +44,13 @@
             </tbody>
         </table>
 
-        <div align="right" class="col-xs-20">
+        <div align="right" class="col-xs-20" th:if="${not #lists.isEmpty(books)}">
             <button class="btn btn-primary" type="submit">Checkout</button>
         </div>
 
     </form>
 
-    <table class="table table-bordered table-sm mt-2">
+    <table>
         <tbody th:if="${#lists.isEmpty(books)}">
         <tr>
             <td th:text="${message}"></td>

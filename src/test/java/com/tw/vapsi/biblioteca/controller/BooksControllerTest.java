@@ -72,10 +72,10 @@ class BooksControllerTest extends ControllerTestHelper {
         books = new ArrayList<>();
         when(bookService.books()).thenReturn(books);
 
-        mockMvc.perform(get("/books"))
+        mockMvc.perform(get("/books").with(user("user")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("books"))
-                .andExpect(model().attribute("message", "Sorry no books available"));
+                .andExpect(model().attribute("message", "Sorry No Books available."));
         verify(bookService, times(1)).books();
     }
 
@@ -85,7 +85,7 @@ class BooksControllerTest extends ControllerTestHelper {
         when(bookService.findByBookNameOrAuthorName(any())).thenReturn(books);
 
         mockMvc.perform(get("/books")
-                        .param("name", "Harry"))
+                        .param("name", "Harry").with(user("user")))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
                 .andExpect(view().name("books"));
@@ -97,7 +97,7 @@ class BooksControllerTest extends ControllerTestHelper {
         when(bookService.findByBookNameOrAuthorName(any())).thenReturn(books);
 
         mockMvc.perform(get("/books")
-                        .param("name", "Harry"))
+                        .param("name", "Harry").with(user("user")))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
                 .andExpect(view().name("books"));
@@ -105,11 +105,11 @@ class BooksControllerTest extends ControllerTestHelper {
 
     @Test
     void shouldReturnBookWhenSearchedByAuthorName() throws Exception {
-
+        when(bookService.books()).thenReturn(books);
         when(bookService.findByBookNameOrAuthorName(any())).thenReturn(books);
 
         mockMvc.perform(get("/books")
-                        .param("name", "Rowling"))
+                        .param("name", "Rowling").with(user("user")))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", books))
                 .andExpect(view().name("books"));
@@ -121,9 +121,9 @@ class BooksControllerTest extends ControllerTestHelper {
         when(bookService.findByBookNameOrAuthorName(any())).thenReturn(Lists.newArrayList());
 
         mockMvc.perform(get("/books")
-                        .param("name", "Rowling"))
+                        .param("name", "Rowling").with(user("user")))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("books", Lists.newArrayList()))
+                .andExpect(model().attribute("message", "Sorry No Books available."))
                 .andExpect(view().name("books"));
     }
 
@@ -146,7 +146,7 @@ class BooksControllerTest extends ControllerTestHelper {
         User user = mock(User.class);
         when(userService.getCheckOutBooks(any())).thenReturn(books);
 
-        mockMvc.perform(get("/viewCheckout").with(user("user"))
+        mockMvc.perform(get("/viewCheckout").with(user("user")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("viewcheckoutbooks"))
                 .andExpect(model().attributeExists("books"));
