@@ -105,18 +105,9 @@ public class User {
         return Objects.hash(id, firstName, lastName, email, password);
     }
 
-    public  void mapBooks(User userDetailsFromDataBase) {
-
-        List<Book> books = this.checkoutBooks;
-        books.addAll(userDetailsFromDataBase.checkoutBooks);
-
-        userDetailsFromDataBase.checkoutBooks=books;
+    public  void addCheckoutBooks(List<Book> books) throws Exception {
+        checkoutBooks.addAll(books);
     }
 
 
-    public void decrementCopies() {
-        for (Book book : this.checkoutBooks) {
-            book.decrementNoOfCopiesForCheckedOutBooks();
-        }
-    }
 }

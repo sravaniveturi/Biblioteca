@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +41,17 @@ public class UserService implements UserDetailsService {
     public List<Book> getCheckOutBooks(String email) {
         User user = findByEmail(email);
         return user.getCheckoutBooks();
+    }
+
+    public List<Book> checkOut(List<Book> checkoutBooks, String email) {
+        try {
+            User user = userRepository.findByEmail(email).get();
+            user.addCheckoutBooks(checkoutBooks);
+            return user.getCheckoutBooks();
+        }
+        catch(Exception e){
+            return new ArrayList<>();
+        }
     }
 
 

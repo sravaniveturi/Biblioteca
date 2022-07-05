@@ -38,14 +38,16 @@ public class BookService {
     }
 
 
-    public List<Book> checkOut(User user) {
-        User userDetailsFromDataBase = userRepository.findByEmail(user.getEmail()).get();
-        user.decrementCopies();
-        user.mapBooks(userDetailsFromDataBase);
-        User userUpdatedWithCheckoutBooks = userRepository.save(userDetailsFromDataBase);
-        return userUpdatedWithCheckoutBooks.getCheckoutBooks();
+    public boolean updateCopies(List<Book> checkoutBooks) {
+        try {
+            for (Book book : checkoutBooks) {
+                book.decrementCopies();
+            }
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
-
-
 }
 

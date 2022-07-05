@@ -3,6 +3,8 @@ package com.tw.vapsi.biblioteca.controller;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
+import com.tw.vapsi.biblioteca.service.UserService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,9 @@ public class BooksController {
 
     @Autowired
     BookService bookService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/books")
     public String books(Model model) {
@@ -40,13 +45,26 @@ public class BooksController {
     }
 
     @PostMapping("/checkout")
-    public String checkout(@ModelAttribute("user") User userWithCheckedOutBooks, @AuthenticationPrincipal UserDetails userDetails) {
-        userWithCheckedOutBooks.setEmail(userDetails.getUsername());
-        List<Book> books = bookService.checkOut(userWithCheckedOutBooks);
-        return "redirect:/users/viewCheckout";
+    public String checkout(@ModelAttribute("User") @NotNull User user, @AuthenticationPrincipal UserDetails currentUser) {
+        List<Book> checkoutBooks = user.getCheckoutBooks();
+        boolean status= bookService.updateCopies(checkoutBooks);
+       if(status) {
+           userService.checkOut(checkoutBooks, currentUser.getUsername());
+           return "redirect:/users/viewCheckout";
+       }
+       return "/books";
+    }
 
+    @GetMapping("/viewCheckout")
+    public ModelAndView getCheckOutBooks(@AuthenticationPrincipal UserDetails user) {
 
-
+        ModelAndView mav = new ModelAndView("viewcheckoutbooks");
+        List<Book> books = userService.getCheckOutBooks(user.getUsername());
+        if (books.isEmpty()) {
+            mav.addObject("errorMessage", "No books checked out by user.");
+        }
+        mav.addObject("books", books);
+        return mav;
     }
 
 }

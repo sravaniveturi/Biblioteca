@@ -128,33 +128,4 @@ class UserControllerTest extends ControllerTestHelper {
         return "Required request parameter '" + parameterName + "' for method parameter type String is not present";
     }
 
-
-
-
-    @Test
-    void shouldReturnCheckoutBooksForUser() throws Exception {
-        User user = new User(1L, firstName, lastName, email, password);
-
-        when(userService.getCheckOutBooks(any())).thenReturn(books);
-
-        mockMvc.perform(get("/users/viewCheckout").with(user("user")).sessionAttr("user", user))
-                .andExpect(status().isOk())
-                .andExpect(view().name("viewcheckoutbooks"))
-                .andExpect(model().attributeExists("books"));
-
-    }
-
-    @Test
-    void shouldReturnNoBooksForUserWithNoCheckOutBooks() throws Exception {
-        User user = new User(1L, firstName, lastName, email, password);
-
-        List<Book> books = Lists.newArrayList();
-        when(userService.getCheckOutBooks(any())).thenReturn(books);
-
-        mockMvc.perform(get("/users/viewCheckout").with(user("user")))
-                .andExpect(status().isOk())
-                .andExpect(view().name("viewcheckoutbooks"))
-                .andExpect(model().attributeExists("errorMessage"));
-
-    }
 }

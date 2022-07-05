@@ -90,30 +90,4 @@ class BookServiceTest {
         assertTrue(booksReturned.isEmpty());
     }
 
-    @Test
-    void shouldCheckOutBooksForUser() {
-        User user = new User(
-                "Micky",
-                "Mouse",
-                "micky-mouse@example.com",
-                "encoded-password");
-
-        User userFromDB = new User(
-                "Micky",
-                "Mouse",
-                "micky-mouse@example.com",
-                "encoded-password");
-        List<Book> books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
-        user.setCheckoutBooks(books);
-        when(userRepository.findByEmail(any())).thenReturn(Optional.of(userFromDB));
-        when(userRepository.save(any())).thenReturn(userFromDB);
-
-        List<Book> booksCheckedOut = bookService.checkOut(user);
-
-        assertEquals(0, booksCheckedOut.get(0).getNumOfCopies());
-        verify(userRepository, times(1)).findByEmail(any());
-        verify(userRepository, times(1)).save(user);
-
-
-    }
 }

@@ -5,6 +5,7 @@ import com.tw.vapsi.biblioteca.controller.helper.ControllerTestHelper;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
+import com.tw.vapsi.biblioteca.service.UserService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BooksControllerTest extends ControllerTestHelper {
     @MockBean
     BookService bookService;
+
     List<Book> books;
     @Autowired
     private MockMvc mockMvc;
@@ -127,14 +129,40 @@ class BooksControllerTest extends ControllerTestHelper {
 
     @Test
     void shouldAbleToCheckedOutBooks() throws Exception {
-        User user = new User(1L, "Micky", "Mouse", "test-mail@test.com", "password@123");
-        when(bookService.checkOut(user)).thenReturn(books);
+        List<Book> books = Lists.newArrayList();
+        User user = mock(User.class);
+        when(bookService.updateCopies(books)).thenReturn(true);
+        when(userService.checkOut(anyList(),any())).thenReturn(books);
 
-        mockMvc.perform(post("/checkout").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .sessionAttr("user", user).with(user("userDetails")))
+
+        mockMvc.perform(post("/checkout").with(user("user")))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/users/viewCheckout"));
-        verify(bookService, times(1)).checkOut(any());
+
+    }
+
+    @Test
+    void shouldReturnCheckoutBooksForUser() throws Exception {
+        User user = mock(User.class);
+        when(userService.getCheckOutBooks(any())).thenReturn(books);
+
+        mockMvc.perform(get("/viewCheckout").with(user("user")).sessionAttr("user", user))
+                .andExpect(status().isOk())
+                .andExpect(view().name("viewcheckoutbooks"))
+                .andExpect(model().attributeExists("books"));
+
+    }
+
+    @Test
+    void shouldReturnNoBooksForUserWithNoCheckOutBooks() throws Exception {
+        User user = mock(User.class);
+        List<Book> books = Lists.newArrayList();
+        when(userService.getCheckOutBooks(any())).thenReturn(books);
+
+        mockMvc.perform(get("/viewCheckout").with(user("user")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("viewcheckoutbooks"))
+                .andExpect(model().attributeExists("errorMessage"));
 
     }
 

@@ -27,7 +27,7 @@ public class Book {
 
     private int numOfCopies;
 
-    public void decrementNoOfCopiesForCheckedOutBooks() {
+    public void decrementCopies() throws Exception {
         this.numOfCopies--;
     }
 
