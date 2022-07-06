@@ -1,13 +1,13 @@
 <header th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml"
         xmlns:sec="http://www.w3.org/1999/xhtml">
-    <nav class="navbar navbar-dark bg-primary">
+    <nav class="navbar navbar-dark bg-primary bg-gradient">
         <div class="container d-flex justify-content-between ">
             <a class="navbar-brand" href="/home">Biblioteca</a>
             <a sec:authorize="!isAuthenticated()" class="nav-link text-light" href="#" th:href="@{/login}">Login</a>
             <a sec:authorize="isAuthenticated()" class="nav-link text-light" href="#" th:href="@{/logout}">Logout</a>
         </div>
     </nav>
-    <nav class="navbar navbar-dark bg-light" sec:authorize="isAuthenticated()">
+    <nav class="navbar navbar-dark bg-light bg-gradient" sec:authorize="isAuthenticated()">
         <div class="container d-flex justify-content-start ps-0">
             <a class="nav-link text-dark" href="#"  th:href="@{/home}">Home</a>
             <a class="nav-link text-dark" href="#" th:if="${#httpServletRequest.requestURI != '/books'}" th:href="@{/books}">View Books</a>

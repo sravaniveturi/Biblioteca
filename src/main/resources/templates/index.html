@@ -7,19 +7,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<header th:insert="header.html :: header"> </header>
-<div class="content-main d-flex align-items-center mt-5">
-    <div class="container my-5">
+<header th:insert="header.html :: header"></header>
+<div class="content-main d-flex align-items-center">
+    <div class="container">
         <div class="row">
-            <div class="col-6">
-                <img class="w-100 rounded border shadow" th:src="@{images/books.jpeg}" />
+            <div class="p-5">
+                <h2 align="center" class="mt-1 " th:text="${welcomeText}"></h2>
+                <h6 align="center" class="mt-2" th:text="${tagLineText}"></h6>
             </div>
-            <div class="col-6">
-                <div class="p-5 mt-4">
-                    <h2 align="center" class="mt-5 " th:text="${welcomeText}"> </h2>
-                    <h6 align="center" class="mt-2" th:text="${tagLineText}"></h6>
-                </div>
-            </div>
+        </div>
+        <div class=" d-flex justify-content-center">
+            <img class="w-50 rounded shadow" th:src="@{images/books.jpeg}"/>
         </div>
     </div>
 </div>
