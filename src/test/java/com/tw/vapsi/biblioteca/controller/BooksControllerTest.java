@@ -182,12 +182,12 @@ class BooksControllerTest extends ControllerTestHelper {
     @Test
     void shouldReturnMessageWhenBooksNotReturned() throws Exception {
         User user = new User(1L, "Micky", "Mouse", "test-mail@test.com", "password@123");
-        when(bookService.returnBooks(any())).thenThrow(new BooksNotReturnedException("Books not returned"));
+        when(bookService.returnBooks(any())).thenThrow(new BooksNotReturnedException("Books not returned.Please try again."));
         mockMvc.perform(post("/return").contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .sessionAttr("user", user).with(user("userDetails")))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(flash().attributeExists("message"))
-                .andExpect(flash().attribute("message", "Books not returned"))
+                .andExpect(flash().attribute("message", "Books not returned.Please try again."))
                 .andExpect(redirectedUrl("/viewCheckout"));
         verify(bookService, times(1)).returnBooks(any());
 

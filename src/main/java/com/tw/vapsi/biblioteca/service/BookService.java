@@ -62,7 +62,11 @@ public class BookService {
         userBookAssociationDetails.returnBooks(user);
 
         int noOfBooksReturned = user.getNoOfBooksReturned();
-        userRepository.save(userBookAssociationDetails);
+
+        User userWhoReturnedBooks= userRepository.save(userBookAssociationDetails);
+        if(userWhoReturnedBooks==null){
+            throw new BooksNotReturnedException("Books not returned.Please try again.");
+        }
         String successMessage = getSuccessMessage(noOfBooksReturned);
         return successMessage;
 
