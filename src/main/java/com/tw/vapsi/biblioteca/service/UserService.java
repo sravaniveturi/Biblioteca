@@ -43,17 +43,6 @@ public class UserService implements UserDetailsService {
         return user.getCheckoutBooks();
     }
 
-    public List<Book> checkOut(List<Book> checkoutBooks, String email) {
-        try {
-            User user = userRepository.findByEmail(email).get();
-            user.addCheckoutBooks(checkoutBooks);
-            return user.getCheckoutBooks();
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
-    }
-
-
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).get();
     }

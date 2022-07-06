@@ -27,7 +27,8 @@ public class Book {
 
     private int numOfCopies;
 
-    public void decrementCopies()  {
+    public void decrementCopies() {
+        if(this.numOfCopies > 0)
         this.numOfCopies--;
     }
 

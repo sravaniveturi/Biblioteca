@@ -16,6 +16,9 @@ public class User {
     private String email;
     private String password;
     @ManyToMany
+    @JoinTable(name = "users_books",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "checkout_books_id") })
     private List<Book> checkoutBooks = new ArrayList<>();
 
     public User(long id, String firstName, String lastName, String email, String password) {
@@ -105,8 +108,8 @@ public class User {
         return Objects.hash(id, firstName, lastName, email, password);
     }
 
-    public void addCheckoutBooks(List<Book> books) throws Exception {
-        checkoutBooks.addAll(books);
+    public  void addCheckoutBook(Book book)  {
+        checkoutBooks.add(book);
     }
 
     public void returnBooks(User user) {

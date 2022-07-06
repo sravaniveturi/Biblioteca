@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -36,18 +37,21 @@ public class BookService {
       return books;
     }
 
-
-    public boolean updateCopies(List<Book> checkoutBooks) {
-        try {
-            for (Book book : checkoutBooks) {
-                book.decrementCopies();
+    public List<Book> checkOut(List<Book> checkoutBooks, String email) throws Exception {
+        User user = userRepository.findByEmail(email).get();
+        List<Book> userCheckoutBooks= user.getCheckoutBooks();
+        for(Book book: checkoutBooks){
+            if(userCheckoutBooks.contains(book)){
+              throw new Exception("User has already checkout the book: "+ book.getBookName());
             }
-            return true;
+            book.decrementCopies();
+            user.addCheckoutBook(book);
         }
-        catch(Exception e){
-            return false;
-        }
+        userRepository.save(user);
+        return user.getCheckoutBooks();
     }
+
+
 
     public String returnBooks(User user) {
         User userDetailsFromDataBase = getUserDetailsFromDataBaseByEmail(user);
@@ -56,7 +60,6 @@ public class BookService {
         userRepository.save(userDetailsFromDataBase);
         String successMessage = getSuccessMessage(noOfBooksReturned);
         return successMessage;
-
     }
 
 

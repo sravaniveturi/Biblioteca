@@ -5,6 +5,8 @@ import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
 import com.tw.vapsi.biblioteca.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,14 +51,14 @@ public class BooksController {
 
     @PostMapping("/checkout")
     public String checkout(@ModelAttribute("User") User user, @AuthenticationPrincipal UserDetails currentUser) {
-        List<Book> checkoutBooks = user.getCheckoutBooks();
 
-        boolean status = bookService.updateCopies(checkoutBooks);
-        if (status) {
-            userService.checkOut(checkoutBooks, currentUser.getUsername());
-            return "redirect:/viewCheckout";
+        List<Book> checkoutBooks = user.getCheckoutBooks();
+        try {
+            bookService.checkOut(checkoutBooks, currentUser.getUsername());
+            ResponseEntity.status(HttpStatus.OK);
+        } catch (Exception e) {
         }
-        return "/books";
+        return "redirect:/viewCheckout";
     }
 
     @GetMapping("/viewCheckout")
