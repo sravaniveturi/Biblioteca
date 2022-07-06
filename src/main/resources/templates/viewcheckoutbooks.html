@@ -6,16 +6,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<header th:insert="header.html :: header"> </header>
+<header th:insert="header.html :: header"></header>
 <div class="container mt-5">
-    <h2 align="center">Your Checkout Books</h2>
-
-    <div align="right">
+<div class="d-flex justify-content-between">
+    <h2>Your Checkout Books</h2>
+    <div>
         <form method="get" th:action="@{/books}">
             <input name="name" placeholder="Find by Book or Author Name" size="30" th:value="${name}" type="text">
             <button class="btn btn-primary" type="submit">Search</button>
         </form>
     </div>
+</div>
     <table>
         <tr>
             <td colspan="3" th:text="${message}"></td>
