@@ -9,7 +9,7 @@ public class HomeController {
 
     @GetMapping({"/", "/home"})
     public String getWelcome(Model model) {
-        String welcomeText = "Welcome to Biblioteca.";
+        String welcomeText = "Welcome to Biblioteca";
         model.addAttribute("welcomeText", welcomeText);
         String tagLineText = "Your one-stop-shop for great book titles in Bangalore!";
         model.addAttribute("tagLineText", tagLineText);

@@ -8,6 +8,7 @@
     </nav>
     <nav class="navbar navbar-dark bg-light" sec:authorize="isAuthenticated()">
         <div class="container d-flex justify-content-start ps-0">
+            <a class="nav-link text-dark" href="#"  th:href="@{/home}">Home</a>
             <a class="nav-link text-dark" href="#" th:if="${#httpServletRequest.requestURI != '/books'}" th:href="@{/books}">View Books</a>
             <a class="nav-link text-dark" href="#" th:if="${#httpServletRequest.requestURI != '/viewCheckout'}" th:href="@{/viewCheckout}">Return Books</a>
         </div>
