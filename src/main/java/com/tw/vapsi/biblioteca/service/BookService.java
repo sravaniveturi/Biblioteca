@@ -37,21 +37,16 @@ public class BookService {
         return books;
     }
 
+
     public List<Book> checkOut(List<Book> checkoutBooks, String email) throws Exception {
         User user = userRepository.findByEmail(email).get();
         List<Book> userCheckoutBooks= user.getCheckoutBooks();
         for(Book book: checkoutBooks){
             if(userCheckoutBooks.contains(book)){
-              throw new Exception("You have already checkout the book: "+ book.getBookName());
+                throw new Exception("You have already checkout the book: "+ book.getBookName());
             }
-<<<<<<< HEAD
             book.decrementCopies();
             user.addCheckoutBook(book);
-=======
-            return true;
-        } catch (Exception e) {
-            return false;
->>>>>>> 19b4d2e (Add. Test method for book return and early return success message)
         }
         userRepository.save(user);
         return user.getCheckoutBooks();
