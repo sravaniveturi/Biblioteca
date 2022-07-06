@@ -74,7 +74,7 @@ class BooksControllerTest extends ControllerTestHelper {
         mockMvc.perform(get("/books").with(user("user")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("books"))
-                .andExpect(model().attribute("message", "Sorry No Books available."));
+                .andExpect(model().attribute("errorMessage", "Sorry No Books available."));
         verify(bookService, times(1)).books();
     }
 
@@ -122,7 +122,7 @@ class BooksControllerTest extends ControllerTestHelper {
         mockMvc.perform(get("/books")
                         .param("name", "Rowling").with(user("user")))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("message", "Sorry No Books available."))
+                .andExpect(model().attribute("errorMessage", "Sorry No Books available."))
                 .andExpect(view().name("books"));
     }
 

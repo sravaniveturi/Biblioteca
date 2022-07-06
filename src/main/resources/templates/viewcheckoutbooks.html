@@ -17,11 +17,10 @@
         </form>
     </div>
 </div>
-    <table>
-        <tr>
-            <td colspan="3" th:text="${successMessage}"></td>
-        </tr>
-    </table>
+    <div>
+        <p style="color:green" th:text="${successMessage}"></p>
+    </div>
+
     <form method="POST" th:action="@{/return}" th:object="${user}">
         <table class="table  table-bordered table-striped mt-1">
             <thead th:if="${not #lists.isEmpty(books)}">
