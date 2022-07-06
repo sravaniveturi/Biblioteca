@@ -90,6 +90,27 @@ class BookServiceTest {
         assertTrue(booksReturned.isEmpty());
     }
 
+    @Test
+    void shouldCheckoutBooks() throws Exception {
+        User user = mock(User.class);
+        List<Book> checkoutBooks = Arrays.asList(new Book());
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
+
+        List<Book> userCheckoutBooks = bookService.checkOut(checkoutBooks, user.getEmail());
+
+        assertEquals(userCheckoutBooks, user.getCheckoutBooks());
+    }
+
+    @Test
+    void cannotCheckoutAlreadyCheckoutBooks() throws Exception {
+        User user = mock(User.class);
+        List<Book> checkoutBooks = Arrays.asList(new Book());
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
+        when(user.getCheckoutBooks()).thenReturn(checkoutBooks);
+
+        assertThrows(Exception.class, ()->bookService.checkOut(checkoutBooks, user.getEmail()));
+    }
+
 
     @Test
     void shouldReturnBooksIfCheckedOut() throws BooksNotReturnedException {
