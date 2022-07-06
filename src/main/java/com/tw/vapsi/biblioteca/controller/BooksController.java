@@ -35,7 +35,7 @@ public class BooksController {
         List<Book> books = getBooks(name);
         model.addAttribute("user", new User());
         if (books.isEmpty()) {
-            model.addAttribute("message", "Sorry No Books available.");
+            model.addAttribute("errorMessage", "Sorry No Books available.");
             return "books";
         }
         model.addAttribute("books", books);
@@ -50,15 +50,23 @@ public class BooksController {
     }
 
     @PostMapping("/checkout")
-    public String checkout(@ModelAttribute("User") User user, @AuthenticationPrincipal UserDetails currentUser) {
-
+    public ModelAndView checkout(@ModelAttribute("User") User user, @AuthenticationPrincipal UserDetails currentUser) {
+        ModelAndView mav;
         List<Book> checkoutBooks = user.getCheckoutBooks();
         try {
-            bookService.checkOut(checkoutBooks, currentUser.getUsername());
+            List<Book> books = bookService.checkOut(checkoutBooks, currentUser.getUsername());
             ResponseEntity.status(HttpStatus.OK);
+            mav = new ModelAndView("redirect:/viewCheckout");
+           //mav.addObject("books",books);
+            mav.addObject("successMessage", "Checkout books was Successful");
+
         } catch (Exception e) {
+            mav = new ModelAndView("redirect:/books");
+
+            //mav.addObject("books",bookService.books());
+            mav.addObject("errorMessage",e.getMessage());
         }
-        return "redirect:/viewCheckout";
+        return mav;
     }
 
     @GetMapping("/viewCheckout")

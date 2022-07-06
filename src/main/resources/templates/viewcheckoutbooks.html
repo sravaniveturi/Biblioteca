@@ -6,7 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<header th:insert="header.html :: header"></header>
+<header th:insert="header.html :: header"> </header>
 <div class="container mt-5">
 <div class="d-flex justify-content-between">
     <h2>Your Checkout Books</h2>
@@ -19,7 +19,7 @@
 </div>
     <table>
         <tr>
-            <td colspan="3" th:text="${message}"></td>
+            <td colspan="3" th:text="${successMessage}"></td>
         </tr>
     </table>
     <form method="POST" th:action="@{/return}" th:object="${user}">
@@ -48,7 +48,7 @@
             <button class="btn btn-primary" type="submit">Return</button>
         </div>
     </form>
-    <table class="table table-bordered table-sm mt-2">
+    <table>
         <tbody th:if="${#lists.isEmpty(books)}">
         <tr>
             <td colspan="3" th:text="${errorMessage}">Sorry!No Books in library</td>
