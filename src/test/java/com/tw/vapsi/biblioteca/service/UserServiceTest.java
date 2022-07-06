@@ -90,7 +90,6 @@ class UserServiceTest {
     }
 
 
-
     @Test
     void shouldReturnEmptyListForUserWithNoCheckOutBooks() {
         User user = new User(

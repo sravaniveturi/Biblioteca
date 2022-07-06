@@ -5,7 +5,6 @@ import com.tw.vapsi.biblioteca.controller.helper.ControllerTestHelper;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
-import com.tw.vapsi.biblioteca.service.UserService;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -132,7 +131,7 @@ class BooksControllerTest extends ControllerTestHelper {
         List<Book> books = Lists.newArrayList();
         User user = mock(User.class);
         when(bookService.updateCopies(books)).thenReturn(true);
-        when(userService.checkOut(anyList(),any())).thenReturn(books);
+        when(userService.checkOut(anyList(), any())).thenReturn(books);
 
 
         mockMvc.perform(post("/checkout").with(user("user")))
@@ -141,7 +140,7 @@ class BooksControllerTest extends ControllerTestHelper {
 
     }
 
-  @Test
+    @Test
     void shouldViewCheckoutBooksForUser() throws Exception {
         User user = mock(User.class);
         when(userService.getCheckOutBooks(any())).thenReturn(books);
@@ -169,11 +168,13 @@ class BooksControllerTest extends ControllerTestHelper {
     @Test
     void shouldAbleToReturnCheckedOutBooks() throws Exception {
         User user = new User(1L, "Micky", "Mouse", "test-mail@test.com", "password@123");
-
+        when(bookService.returnBooks(any())).thenReturn("1 book returned successfully .");
         mockMvc.perform(post("/return").contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .sessionAttr("user", user).with(user("userDetails")))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/users/viewCheckout"));
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message", "1 book returned successfully ."))
+                .andExpect(redirectedUrl("/viewCheckout"));
         verify(bookService, times(1)).returnBooks(any());
 
     }

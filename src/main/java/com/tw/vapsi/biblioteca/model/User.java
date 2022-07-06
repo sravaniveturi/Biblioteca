@@ -105,13 +105,18 @@ public class User {
         return Objects.hash(id, firstName, lastName, email, password);
     }
 
-    public  void addCheckoutBooks(List<Book> books) throws Exception {
+    public void addCheckoutBooks(List<Book> books) throws Exception {
         checkoutBooks.addAll(books);
     }
 
     public void returnBooks(User user) {
-      for(Book book:user.checkoutBooks){
-          this.checkoutBooks.remove(book);
-      }
+        for (Book book : user.checkoutBooks) {
+            this.checkoutBooks.remove(book);
+        }
+    }
+
+    public int getNoOfBooksReturned() {
+        int noOfBooksReturned = this.getCheckoutBooks().size();
+        return noOfBooksReturned;
     }
 }

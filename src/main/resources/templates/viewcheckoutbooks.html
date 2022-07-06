@@ -8,16 +8,20 @@
 <body>
 <header th:insert="header.html :: header"> </header>
 <div class="container mt-5">
-    <div class="d-flex justify-content-between">
-        <h4>Your Checkout Books</h4>
+    <h2 align="center">Your Checkout Books</h2>
+
+    <div align="right">
         <form method="get" th:action="@{/books}">
             <input name="name" placeholder="Find by Book or Author Name" size="30" th:value="${name}" type="text">
             <button class="btn btn-primary" type="submit">Search</button>
         </form>
     </div>
-
-
-    <form action="#">
+    <table>
+        <tr>
+            <td colspan="3" th:text="${message}"></td>
+        </tr>
+    </table>
+    <form method="POST" th:action="@{/return}" th:object="${user}">
         <table class="table  table-bordered table-striped mt-1">
             <thead th:if="${not #lists.isEmpty(books)}">
             <tr>
@@ -32,7 +36,8 @@
                 <td th:text="${row.bookName}">Title ...</td>
                 <td th:text="${row.authorName}">authorName ...</td>
                 <td th:text="${row.yearOfPublication}">yearOfPublication ...</td>
-                <td><input
+                <td align="center"><input
+                        th:field="${user.checkoutBooks}"
                         th:value="${row.id}"
                         type="checkbox"/></td>
             </tr>
@@ -49,6 +54,8 @@
         </tr>
         </tbody>
     </table>
+    <a href="#" th:href="@{/books/}">View All Books</a>
+    <p><a href="#" th:href="@{/}">Home</a></p>
 </div>
 </body>
 </html>

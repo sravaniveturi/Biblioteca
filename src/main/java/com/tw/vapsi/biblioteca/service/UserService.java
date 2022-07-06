@@ -48,12 +48,10 @@ public class UserService implements UserDetailsService {
             User user = userRepository.findByEmail(email).get();
             user.addCheckoutBooks(checkoutBooks);
             return user.getCheckoutBooks();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return new ArrayList<>();
         }
     }
-
 
 
     public User findByEmail(String email) {

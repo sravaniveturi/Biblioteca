@@ -108,7 +108,8 @@ class BookServiceTest {
         List<Book> books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
         user.setCheckoutBooks(books);
         when(userRepository.findByEmail(any())).thenReturn(Optional.of(userFromDB));
-        bookService.returnBooks(user);
+        String successMessage = bookService.returnBooks(user);
+        assertEquals("1 book returned successfully .", successMessage);
         verify(userRepository, times(1)).findByEmail(any());
         verify(userRepository, times(1)).save(any());
 

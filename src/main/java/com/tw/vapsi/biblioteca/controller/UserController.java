@@ -30,7 +30,6 @@ public class UserController {
     }
 
 
-
     @GetMapping("/viewCheckout")
     public ModelAndView getCheckOutBooks(@AuthenticationPrincipal UserDetails user) {
 
