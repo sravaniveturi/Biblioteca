@@ -6,7 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<header th:insert="header.html :: header"> </header>
+<header th:insert="header.html :: header"></header>
 <div class="container mt-5">
     <div class="d-flex justify-content-between">
         <h2>Books</h2>
@@ -52,13 +52,10 @@
 
     </form>
 
-    <table class="table table-bordered table-sm mt-2">
-        <tbody th:if="${#lists.isEmpty(books)}">
-        <tr>
-            <td th:text="${errorMessage}"></td>
-        </tr>
-        </tbody>
-    </table>
+
+    <div>
+        <p style="color:red" th:text="${message}"></p>
+    </div>
 
 </div>
 

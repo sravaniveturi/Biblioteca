@@ -51,18 +51,20 @@ public class BooksController {
     }
 
     @PostMapping("/checkout")
-    public ModelAndView checkout(@ModelAttribute("User") User user, @AuthenticationPrincipal UserDetails currentUser) {
+    public ModelAndView checkout(@ModelAttribute("User") User user, @AuthenticationPrincipal UserDetails currentUser,RedirectAttributes redirectAttrs) {
         ModelAndView mav;
         List<Book> checkoutBooks = user.getCheckoutBooks();
         try {
             List<Book> books = bookService.checkOut(checkoutBooks, currentUser.getUsername());
             ResponseEntity.status(HttpStatus.OK);
+            redirectAttrs.addFlashAttribute("message","Checkout books was Successful");
             mav = new ModelAndView("redirect:/viewCheckout");
-            mav.addObject("successMessage", "Checkout books was Successful");
+            //mav.addObject("successMessage", "Checkout books was Successful");
 
         } catch (Exception e) {
+            redirectAttrs.addFlashAttribute("message",e.getMessage());
             mav = new ModelAndView("redirect:/books");
-            mav.addObject("errorMessage",e.getMessage());
+           // mav.addObject("errorMessage",e.getMessage());
         }
         return mav;
     }
