@@ -109,6 +109,7 @@ class BookServiceTest {
         user.setCheckoutBooks(books);
         when(userRepository.findByEmail(any())).thenReturn(Optional.of(userFromDB));
         String successMessage = bookService.returnBooks(user);
+
         assertEquals("1 book returned successfully .", successMessage);
         verify(userRepository, times(1)).findByEmail(any());
         verify(userRepository, times(1)).save(any());

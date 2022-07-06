@@ -8,9 +8,9 @@
 <body>
 <header th:insert="header.html :: header"> </header>
 <div class="container mt-5">
-<div class="d-flex justify-content-between">
-    <h2>Your Checkout Books</h2>
-    <div>
+    <h2 align="center">Your Checkout Books</h2>
+
+    <div align="right">
         <form method="get" th:action="@{/books}">
             <input name="name" placeholder="Find by Book or Author Name" size="30" th:value="${name}" type="text">
             <button class="btn btn-primary" type="submit">Search</button>

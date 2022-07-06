@@ -122,4 +122,10 @@ public class User {
         int noOfBooksReturned = this.getCheckoutBooks().size();
         return noOfBooksReturned;
     }
+
+    public void incrementCopiesOfReturnedBook() {
+        for (Book book : this.checkoutBooks) {
+            book.incrementCopies();
+        }
+    }
 }

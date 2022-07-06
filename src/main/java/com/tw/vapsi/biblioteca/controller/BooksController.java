@@ -88,7 +88,7 @@ public class BooksController {
         String successMessage = bookService.returnBooks(userWithCheckedOutBooks);
 
 
-        redirectAttrs.addFlashAttribute("message", successMessage);
+        redirectAttrs.addFlashAttribute("success", successMessage);
 
         return "redirect:/viewCheckout";
     }

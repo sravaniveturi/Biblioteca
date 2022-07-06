@@ -31,5 +31,11 @@ public class Book {
         if(this.numOfCopies > 0)
         this.numOfCopies--;
     }
+    public void incrementCopies()  {
+        this.numOfCopies++;
+    }
 
+    public int getNumOfCopies() {
+        return numOfCopies;
+    }
 }

@@ -54,10 +54,12 @@ public class BookService {
 
 
     public String returnBooks(User user) {
-        User userDetailsFromDataBase = getUserDetailsFromDataBaseByEmail(user);
-        userDetailsFromDataBase.returnBooks(user);
+        User userBookAssociationDetails = getUserBookAssociationDetails(user);
+        user.incrementCopiesOfReturnedBook();
+        bookRepository.saveAll(user.getCheckoutBooks());
+        userBookAssociationDetails.returnBooks(user);
         int noOfBooksReturned = user.getNoOfBooksReturned();
-        userRepository.save(userDetailsFromDataBase);
+        userRepository.save(userBookAssociationDetails);
         String successMessage = getSuccessMessage(noOfBooksReturned);
         return successMessage;
     }
@@ -73,7 +75,7 @@ public class BookService {
 
 
 
-    private User getUserDetailsFromDataBaseByEmail(User user) {
+    private User getUserBookAssociationDetails(User user) {
         User userDetailsFromDataBase = userRepository.findByEmail(user.getEmail()).get();
         return userDetailsFromDataBase;
     }
