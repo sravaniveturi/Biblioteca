@@ -72,13 +72,13 @@ public class BookService {
 
 
     private String getSuccessMessage(int noOfBooksReturned) {
-        String successMessage;
+        String noOfBooksReturnedMsg;
         if (noOfBooksReturned == 1) {
-            successMessage = "1 book returned successfully .";
-            return successMessage;
+            noOfBooksReturnedMsg = "1 book returned successfully .";
+            return noOfBooksReturnedMsg;
         }
-        successMessage = noOfBooksReturned + " books returned successfully .";
-        return successMessage;
+        noOfBooksReturnedMsg = noOfBooksReturned + " books returned successfully .";
+        return noOfBooksReturnedMsg;
     }
 
 

@@ -27,4 +27,33 @@ class UserTest {
         userFromDB.returnBooks(userFromScreen);
         assertEquals(expectedBookList,userFromDB.getCheckoutBooks());
     }
+
+    @Test
+    void shouldReturnNoOfBooksReturned(){
+        Book book1=new Book(1, "Harry Potter", "J.K Rowling", 2000, 1);
+        Book book2=new Book(2, "The Power of Your Subconscious Mind", "Joseph Murphy", 2000, 1);
+
+        List<Book> returnedBookList= Lists.newArrayList(book1,book2);
+
+        User user= new User();
+        user.setCheckoutBooks(returnedBookList);
+        assertEquals(2,user.getNoOfBooksReturned());
+    }
+
+    @Test
+    void shouldIncrementCopiesOfBooksReturned(){
+
+        Book book1=new Book(1, "Harry Potter", "J.K Rowling", 2000, 1);
+        Book book2=new Book(2, "The Power of Your Subconscious Mind", "Joseph Murphy", 2000, 1);
+
+        List<Book> returnedBookList= Lists.newArrayList(book1,book2);
+
+        User user= new User();
+        user.setCheckoutBooks(returnedBookList);
+        user.incrementCopiesOfReturnedBook();
+        assertEquals(2,book1.getNumOfCopies());
+        assertEquals(2,book2.getNumOfCopies());
+
+
+    }
 }
