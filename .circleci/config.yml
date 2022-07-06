@@ -12,7 +12,7 @@ workflows:
             - test
       - deployToProd:
            requires:
-            - deployToStage
+            - test
 
 
 jobs:
