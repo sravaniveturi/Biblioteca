@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,13 +58,10 @@ public class BooksController {
             List<Book> books = bookService.checkOut(checkoutBooks, currentUser.getUsername());
             ResponseEntity.status(HttpStatus.OK);
             mav = new ModelAndView("redirect:/viewCheckout");
-           //mav.addObject("books",books);
             mav.addObject("successMessage", "Checkout books was Successful");
 
         } catch (Exception e) {
             mav = new ModelAndView("redirect:/books");
-
-            //mav.addObject("books",bookService.books());
             mav.addObject("errorMessage",e.getMessage());
         }
         return mav;
