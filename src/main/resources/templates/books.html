@@ -18,6 +18,9 @@
         </div>
     </div>
 
+    <div>
+        <p style="color:red" th:text="${message}"></p>
+    </div>
 
     <form method="POST" th:action="@{/checkout}" th:object="${user}">
         <table class="table table-bordered table-striped">
@@ -51,11 +54,6 @@
         </div>
 
     </form>
-
-
-    <div>
-        <p style="color:red" th:text="${message}"></p>
-    </div>
 
 </div>
 

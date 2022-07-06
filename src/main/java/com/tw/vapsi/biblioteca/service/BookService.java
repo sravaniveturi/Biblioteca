@@ -42,7 +42,7 @@ public class BookService {
         List<Book> userCheckoutBooks= user.getCheckoutBooks();
         for(Book book: checkoutBooks){
             if(userCheckoutBooks.contains(book)){
-              throw new Exception("User has already checkout the book: "+ book.getBookName());
+              throw new Exception("You have already checkout the book: "+ book.getBookName());
             }
             book.decrementCopies();
             user.addCheckoutBook(book);
