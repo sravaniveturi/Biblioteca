@@ -47,13 +47,11 @@
             <button class="btn btn-primary" type="submit">Return</button>
         </div>
     </form>
-    <table>
-        <tbody th:if="${#lists.isEmpty(books)}">
-        <tr>
-            <td colspan="3" th:text="${errorMessage}">Sorry!No Books in library</td>
-        </tr>
-        </tbody>
-    </table>
+
+        <div th:if="${#lists.isEmpty(books)}">
+            <p colspan="3" th:text="${errorMessage}">Sorry!No Books in library</p>
+        </div>
+
 </div>
 </body>
 </html>

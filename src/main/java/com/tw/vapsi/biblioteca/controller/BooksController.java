@@ -37,7 +37,7 @@ public class BooksController {
         List<Book> books = getBooks(name);
         model.addAttribute("user", new User());
         if (books.isEmpty()) {
-            model.addAttribute("errorMessage", "Sorry No Books available.");
+            model.addAttribute("errorMessage", "Sorry No Books available in the library.");
             return "books";
         }
         model.addAttribute("books", books);
@@ -60,12 +60,11 @@ public class BooksController {
             ResponseEntity.status(HttpStatus.OK);
             redirectAttrs.addFlashAttribute("message","Checkout books was Successful");
             mav = new ModelAndView("redirect:/viewCheckout");
-            //mav.addObject("successMessage", "Checkout books was Successful");
 
         } catch (Exception e) {
             redirectAttrs.addFlashAttribute("message",e.getMessage());
             mav = new ModelAndView("redirect:/books");
-           // mav.addObject("errorMessage",e.getMessage());
+
         }
         return mav;
     }
@@ -77,7 +76,7 @@ public class BooksController {
         mav.addObject("user", new User());
         List<Book> books = userService.getCheckOutBooks(user.getUsername());
         if (books.isEmpty()) {
-            mav.addObject("errorMessage", "No books checked out by user.");
+            mav.addObject("errorMessage", "No books checked out by the customer.");
         }
         mav.addObject("books", books);
         return mav;
