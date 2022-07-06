@@ -62,7 +62,7 @@
             </tbody>
         </table>
 
-        <div align="right" class="col-xs-20">
+        <div align="right" class="col-xs-20" th:if="${not #lists.isEmpty(books)}">
             <button class="btn btn-primary" id="checkout" onclick="return btnClick()" type="submit">Checkout</button>
         </div>
 
