@@ -127,19 +127,34 @@ class BooksControllerTest extends ControllerTestHelper {
                 .andExpect(view().name("books"));
     }
 
-    /*@Test
-    void shouldAbleToCheckedOutBooks() throws Exception {
+    @Test
+    void canCheckedOutBooks() throws Exception {
         List<Book> books = Lists.newArrayList();
         User user = mock(User.class);
-        when(bookService.updateCopies(books)).thenReturn(true);
-        when(userService.checkOut(anyList(), any())).thenReturn(books);
-
+        when(bookService.checkOut(anyList(), any())).thenReturn(books);
 
         mockMvc.perform(post("/checkout").with(user("user")))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/viewCheckout"));
+                .andExpect(redirectedUrl("/viewCheckout"))
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message", "Checkout books was Successful"));
 
-    }*/
+        verify(bookService, times(1)).checkOut(anyList(), any());
+    }
+
+    @Test
+    void cannotCheckOutBooksAlreadyCheckedOut() throws Exception {
+        List<Book> books = Lists.newArrayList();
+        User user = mock(User.class);
+        user.setCheckoutBooks(books);
+        when(bookService.checkOut(anyList(), any())).thenThrow(Exception.class);
+
+        mockMvc.perform(post("/checkout").with(user("user")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/books"));
+
+        verify(bookService, times(1)).checkOut(anyList(), any());
+    }
 
     @Test
     void shouldViewCheckoutBooksForUser() throws Exception {
@@ -179,6 +194,7 @@ class BooksControllerTest extends ControllerTestHelper {
         verify(bookService, times(1)).returnBooks(any());
 
     }
+
     @Test
     void shouldReturnMessageWhenBooksNotReturned() throws Exception {
         User user = new User(1L, "Micky", "Mouse", "test-mail@test.com", "password@123");
