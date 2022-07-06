@@ -116,10 +116,11 @@ public class User {
         for (Book book : user.checkoutBooks) {
             this.checkoutBooks.remove(book);
         }
+
     }
 
     public int getNoOfBooksReturned() {
-        int noOfBooksReturned = this.getCheckoutBooks().size();
+        int noOfBooksReturned = this.checkoutBooks.size();
         return noOfBooksReturned;
     }
 

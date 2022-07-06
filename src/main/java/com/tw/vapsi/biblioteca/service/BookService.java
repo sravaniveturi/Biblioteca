@@ -30,11 +30,11 @@ public class BookService {
 
     public List<Book> findByBookNameOrAuthorName(String name) {
         List<Book> books = new ArrayList<>();
-        if(!name.trim().isEmpty()){
+        if (!name.trim().isEmpty()) {
             books = bookRepository.findByBookNameContainingIgnoreCase(name);
             bookRepository.findByAuthorNameContainingIgnoreCase(name).forEach(books::add);
         }
-      return books;
+        return books;
     }
 
     public List<Book> checkOut(List<Book> checkoutBooks, String email) throws Exception {
@@ -44,8 +44,14 @@ public class BookService {
             if(userCheckoutBooks.contains(book)){
               throw new Exception("You have already checkout the book: "+ book.getBookName());
             }
+<<<<<<< HEAD
             book.decrementCopies();
             user.addCheckoutBook(book);
+=======
+            return true;
+        } catch (Exception e) {
+            return false;
+>>>>>>> 19b4d2e (Add. Test method for book return and early return success message)
         }
         userRepository.save(user);
         return user.getCheckoutBooks();
@@ -66,13 +72,14 @@ public class BookService {
 
 
     private String getSuccessMessage(int noOfBooksReturned) {
-        String noOfBooksReturnedMsg = noOfBooksReturned + " books returned successfully .";
+        String successMessage;
         if (noOfBooksReturned == 1) {
-            noOfBooksReturnedMsg = "1 book returned successfully .";
+            successMessage = "1 book returned successfully .";
+            return successMessage;
         }
-        return noOfBooksReturnedMsg;
+        successMessage = noOfBooksReturned + " books returned successfully .";
+        return successMessage;
     }
-
 
 
     private User getUserBookAssociationDetails(User user) {
