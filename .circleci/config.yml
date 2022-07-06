@@ -57,8 +57,16 @@ jobs:
             HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a biblioteca-stage web
 
   deployToProd:
+    docker: # executor type
+      - image: cimg/base:stable # primary container will run the latest, production-ready base
     steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - attach_workspace:
+          at: ./
       - run: docker build --iidfile image.txt -f Dockerfile . -t teamd
+
       - run:
           name: Build and push Docker image to Heroku Production
           command: |
