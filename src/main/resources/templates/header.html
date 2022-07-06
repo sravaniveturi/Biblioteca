@@ -3,6 +3,7 @@
     <nav class="navbar navbar-dark bg-primary">
         <div class="container d-flex justify-content-between ">
             <a class="navbar-brand" href="/home">Biblioteca</a>
+            <a sec:authorize="!isAuthenticated()" class="nav-link text-light" href="#" th:href="@{/login}">Login</a>
             <a sec:authorize="isAuthenticated()" class="nav-link text-light" href="#" th:href="@{/logout}">Logout</a>
         </div>
     </nav>
