@@ -58,6 +58,7 @@ jobs:
 
   deployToProd:
     steps:
+      - run: docker build --iidfile image.txt -f Dockerfile . -t teamd
       - run:
           name: Build and push Docker image to Heroku Production
           command: |
