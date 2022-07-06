@@ -10,6 +10,9 @@ workflows:
       - deployToStage:
            requires:
             - test
+      - deployToProd:
+          requires:
+            - deployToStage
 
 
 jobs:
@@ -52,4 +55,14 @@ jobs:
             HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
             HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a biblioteca-stage web
             HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a biblioteca-stage web
+
+    deployToProd:
+      - run:
+          name: Build and push Docker image to Heroku Production
+          command: |
+            set -x
+            sudo curl https://cli-assets.heroku.com/install.sh | sh
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a biblioteca-production web
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a biblioteca-production web
 
