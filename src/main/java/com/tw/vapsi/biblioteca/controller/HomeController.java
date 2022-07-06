@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping({"/", "/welcome"})
+    @GetMapping({"/", "/home"})
     public String getWelcome(Model model) {
-        String welcomeText = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!";
+        String welcomeText = "Welcome to Biblioteca.";
         model.addAttribute("welcomeText", welcomeText);
+        String tagLineText = "Your one-stop-shop for great book titles in Bangalore!";
+        model.addAttribute("tagLineText", tagLineText);
         return "index";
 
     }

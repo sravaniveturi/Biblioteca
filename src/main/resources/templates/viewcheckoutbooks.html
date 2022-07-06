@@ -6,18 +6,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<header th:insert="header.html :: header"> </header>
 <div class="container mt-5">
-    <h2 align="center">Your Checkout Books</h2>
-
-    <div align="right">
+    <div class="d-flex justify-content-between">
+        <h4>Your Checkout Books</h4>
         <form method="get" th:action="@{/books}">
             <input name="name" placeholder="Find by Book or Author Name" size="30" th:value="${name}" type="text">
             <button class="btn btn-primary" type="submit">Search</button>
         </form>
     </div>
 
-    <form method="POST" th:action="@{/return}" th:object="${user}">
-        <table class="table  table-bordered table-striped">
+
+    <form action="#">
+        <table class="table  table-bordered table-striped mt-1">
             <thead th:if="${not #lists.isEmpty(books)}">
             <tr>
                 <th>Book Name</th>
@@ -31,8 +32,7 @@
                 <td th:text="${row.bookName}">Title ...</td>
                 <td th:text="${row.authorName}">authorName ...</td>
                 <td th:text="${row.yearOfPublication}">yearOfPublication ...</td>
-                <td align="center"><input
-                        th:field="${user.checkoutBooks}"
+                <td><input
                         th:value="${row.id}"
                         type="checkbox"/></td>
             </tr>
@@ -42,15 +42,13 @@
             <button class="btn btn-primary" type="submit">Return</button>
         </div>
     </form>
-    <table>
+    <table class="table table-bordered table-sm mt-2">
         <tbody th:if="${#lists.isEmpty(books)}">
         <tr>
             <td colspan="3" th:text="${errorMessage}">Sorry!No Books in library</td>
         </tr>
         </tbody>
     </table>
-    <a href="#" th:href="@{/books/}">View All Books</a>
-    <p><a href="#" th:href="@{/}">Home</a></p>
 </div>
 </body>
 </html>

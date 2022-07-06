@@ -1,19 +1,32 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
-    <title>Spring Security Example </title>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div th:if="${param.error}">
+<header th:insert="header.html :: header"></header>
+<div th:if="${param.error}" class="text-center mt-4">
     Invalid username and password.
 </div>
-<div th:if="${param.logout}">
+<div th:if="${param.logout}" class="text-center mt-4">
     You have been logged out.
 </div>
-<form method="post" th:action="@{/login}">
-    <div><label> User Name : <input name="username" type="text"/> </label></div>
-    <div><label> Password: <input name="password" type="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+<div class="container w-25 mt-4 p-5 border rounded shadow">
+    <form th:action="@{/login}" method="post">
+        <h4>Login</h4>
+        <div class="form-outline my-4">
+            <input type="email" id="username" name="username" class="form-control" placeholder="Username"/>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password"/>
+        </div>
+        <!-- Submit button -->
+        <div><input type="submit" class="btn btn-primary" value="Sign In"/></div>
+    </form>
+</div>
 </body>
 </html>

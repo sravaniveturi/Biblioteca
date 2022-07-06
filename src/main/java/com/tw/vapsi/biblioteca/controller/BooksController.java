@@ -4,7 +4,6 @@ import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
 import com.tw.vapsi.biblioteca.service.UserService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +26,7 @@ public class BooksController {
     UserService userService;
 
     @GetMapping("/books")
-    public String books(Model model,@RequestParam Optional<String> name) {
+    public String books(Model model, @RequestParam Optional<String> name) {
         List<Book> books = getBooks(name);
         model.addAttribute("user", new User());
         if (books.isEmpty()) {
@@ -38,8 +37,8 @@ public class BooksController {
         return "books";
     }
 
-    private List<Book> getBooks(Optional<String> name){
-        if (name.isPresent()){
+    private List<Book> getBooks(Optional<String> name) {
+        if (name.isPresent()) {
             return bookService.findByBookNameOrAuthorName(name.get());
         }
         return bookService.books();
@@ -49,8 +48,8 @@ public class BooksController {
     public String checkout(@ModelAttribute("User") User user, @AuthenticationPrincipal UserDetails currentUser) {
         List<Book> checkoutBooks = user.getCheckoutBooks();
 
-        boolean status= bookService.updateCopies(checkoutBooks);
-        if(status) {
+        boolean status = bookService.updateCopies(checkoutBooks);
+        if (status) {
             userService.checkOut(checkoutBooks, currentUser.getUsername());
             return "redirect:/viewCheckout";
         }
@@ -69,13 +68,13 @@ public class BooksController {
         mav.addObject("books", books);
         return mav;
     }
+
     @PostMapping("/return")
     public String returnBooks(@ModelAttribute("user") User userWithCheckedOutBooks, @AuthenticationPrincipal UserDetails userDetails) {
         userWithCheckedOutBooks.setEmail(userDetails.getUsername());
         bookService.returnBooks(userWithCheckedOutBooks);
         return "redirect:/users/viewCheckout";
     }
-
 
 
 }

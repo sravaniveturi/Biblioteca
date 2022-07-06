@@ -30,11 +30,11 @@ public class BookService {
 
     public List<Book> findByBookNameOrAuthorName(String name) {
         List<Book> books = new ArrayList<>();
-        if(!name.trim().isEmpty()){
+        if (!name.trim().isEmpty()) {
             books = bookRepository.findByBookNameContainingIgnoreCase(name);
             bookRepository.findByAuthorNameContainingIgnoreCase(name).forEach(books::add);
         }
-      return books;
+        return books;
     }
 
 
@@ -44,12 +44,12 @@ public class BookService {
                 book.decrementCopies();
             }
             return true;
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
-    public void returnBooks(User user){
+
+    public void returnBooks(User user) {
         User userDetailsFromDataBase = userRepository.findByEmail(user.getEmail()).get();
         userDetailsFromDataBase.returnBooks(user);
         User userUpdatedWithCheckoutBooks = userRepository.save(userDetailsFromDataBase);
