@@ -19,4 +19,17 @@ class BookTest {
         assertEquals(6,book.getNumOfCopies());
     }
 
+    @Test
+    void shouldDecrementCopies(){
+        book.decrementCopies();
+        assertEquals(4, book.getNumOfCopies());
+    }
+
+    @Test
+    void cannotDecrementWhenBookHasNoCopy(){
+        book.setNumOfCopies(0);
+        book.decrementCopies();
+        assertEquals(0, book.getNumOfCopies());
+    }
+
 }

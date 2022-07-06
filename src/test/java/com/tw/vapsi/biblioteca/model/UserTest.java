@@ -11,6 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserTest {
 
     @Test
+    void shouldAddCheckoutBook(){
+        Book book = new Book();
+        User user = new User();
+
+        user.addCheckoutBook(book);
+
+        assertTrue(user.getCheckoutBooks().contains(book));
+    }
+
+    @Test
     void shouldRemoveBooksReturnedFromCheckedOutBooks() {
         Book book1=new Book(1, "Harry Potter", "J.K Rowling", 2000, 1);
         Book book2=new Book(2, "The Power of Your Subconscious Mind", "Joseph Murphy", 2000, 1);
