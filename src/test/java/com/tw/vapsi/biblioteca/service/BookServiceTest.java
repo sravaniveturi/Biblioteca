@@ -1,5 +1,6 @@
 package com.tw.vapsi.biblioteca.service;
 
+import com.tw.vapsi.biblioteca.exceptions.BooksNotReturnedException;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.repository.BookRepository;
@@ -17,8 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -92,7 +92,7 @@ class BookServiceTest {
 
 
     @Test
-    void shouldReturnBooksIfCheckedOut() {
+    void shouldReturnBooksIfCheckedOut() throws BooksNotReturnedException {
         User user = new User(
                 "Micky",
                 "Mouse",
@@ -108,12 +108,32 @@ class BookServiceTest {
         List<Book> books = Arrays.asList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
         user.setCheckoutBooks(books);
         when(userRepository.findByEmail(any())).thenReturn(Optional.of(userFromDB));
+        when(userRepository.save(any())).thenReturn(userFromDB);
+        when(bookRepository.saveAll(any())).thenReturn(books);
         String successMessage = bookService.returnBooks(user);
-
         assertEquals("1 book returned successfully .", successMessage);
         verify(userRepository, times(1)).findByEmail(any());
         verify(userRepository, times(1)).save(any());
+        verify(bookRepository, times(1)).saveAll(any());
 
+    }
+    @Test
+    void shouldThowExceptionWhenBooksNotReturnedSuccessfully()  {
+        User user = new User(
+                "Micky",
+                "Mouse",
+                "micky-mouse@example.com",
+                "encoded-password");
+        User userFromDB = new User(
+                "Micky",
+                "Mouse",
+                "micky-mouse@example.com",
+                "encoded-password");
+        List<Book> books = Lists.newArrayList(new Book(1, "Harry Potter", "J.K Rowling", 2000, 1));
+        user.setCheckoutBooks(books);
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(userFromDB));
+        when(userRepository.save(any())).thenReturn(null);
 
+        assertThrows(BooksNotReturnedException.class,()-> bookService.returnBooks(userFromDB));
     }
 }

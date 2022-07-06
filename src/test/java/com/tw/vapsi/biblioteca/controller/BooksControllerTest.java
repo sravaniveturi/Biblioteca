@@ -2,6 +2,7 @@ package com.tw.vapsi.biblioteca.controller;
 
 
 import com.tw.vapsi.biblioteca.controller.helper.ControllerTestHelper;
+import com.tw.vapsi.biblioteca.exceptions.BooksNotReturnedException;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
@@ -174,6 +175,19 @@ class BooksControllerTest extends ControllerTestHelper {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(flash().attributeExists("message"))
                 .andExpect(flash().attribute("message", "1 book returned successfully ."))
+                .andExpect(redirectedUrl("/viewCheckout"));
+        verify(bookService, times(1)).returnBooks(any());
+
+    }
+    @Test
+    void shouldReturnMessageWhenBooksNotReturned() throws Exception {
+        User user = new User(1L, "Micky", "Mouse", "test-mail@test.com", "password@123");
+        when(bookService.returnBooks(any())).thenThrow(new BooksNotReturnedException("Books not returned"));
+        mockMvc.perform(post("/return").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .sessionAttr("user", user).with(user("userDetails")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(flash().attribute("message", "Books not returned"))
                 .andExpect(redirectedUrl("/viewCheckout"));
         verify(bookService, times(1)).returnBooks(any());
 

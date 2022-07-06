@@ -1,5 +1,6 @@
 package com.tw.vapsi.biblioteca.controller;
 
+import com.tw.vapsi.biblioteca.exceptions.BooksNotReturnedException;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
@@ -84,12 +85,16 @@ public class BooksController {
 
     @PostMapping("/return")
     public String returnBooks(@ModelAttribute("user") User userWithCheckedOutBooks, @AuthenticationPrincipal UserDetails userDetails, RedirectAttributes redirectAttrs) {
+        String message ="";
         userWithCheckedOutBooks.setEmail(userDetails.getUsername());
-        String successMessage = bookService.returnBooks(userWithCheckedOutBooks);
-
-
-        redirectAttrs.addFlashAttribute("success", successMessage);
-
+        try {
+            message= bookService.returnBooks(userWithCheckedOutBooks);
+        } catch (BooksNotReturnedException e) {
+            message= e.getMessage();
+            redirectAttrs.addFlashAttribute("message",message);
+            return "redirect:/viewCheckout";
+        }
+        redirectAttrs.addFlashAttribute("message", message);
         return "redirect:/viewCheckout";
     }
 

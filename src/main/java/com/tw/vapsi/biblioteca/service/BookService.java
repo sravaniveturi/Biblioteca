@@ -1,5 +1,6 @@
 package com.tw.vapsi.biblioteca.service;
 
+import com.tw.vapsi.biblioteca.exceptions.BooksNotReturnedException;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.repository.BookRepository;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookService {
@@ -59,15 +59,18 @@ public class BookService {
 
 
 
-    public String returnBooks(User user) {
+    public String returnBooks(User user) throws BooksNotReturnedException {
+        String message ="";
         User userBookAssociationDetails = getUserBookAssociationDetails(user);
         user.incrementCopiesOfReturnedBook();
         bookRepository.saveAll(user.getCheckoutBooks());
         userBookAssociationDetails.returnBooks(user);
+
         int noOfBooksReturned = user.getNoOfBooksReturned();
         userRepository.save(userBookAssociationDetails);
         String successMessage = getSuccessMessage(noOfBooksReturned);
         return successMessage;
+
     }
 
 
