@@ -10,10 +10,12 @@ workflows:
       - deployToStage:
            requires:
             - test
-      - deployToProd:
-           requires:
+      - hold:
+        type: approval
+        requires:
             - test
-
+      - deployToProd:
+            - hold
 
 jobs:
   build:
