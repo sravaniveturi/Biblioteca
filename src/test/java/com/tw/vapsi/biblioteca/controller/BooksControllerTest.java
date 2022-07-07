@@ -3,6 +3,7 @@ package com.tw.vapsi.biblioteca.controller;
 
 import com.tw.vapsi.biblioteca.controller.helper.ControllerTestHelper;
 import com.tw.vapsi.biblioteca.exceptions.BooksNotReturnedException;
+import com.tw.vapsi.biblioteca.exceptions.BookAlreadyCheckoutException;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
 import com.tw.vapsi.biblioteca.service.BookService;
@@ -128,7 +129,7 @@ class BooksControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void canCheckedOutBooks() throws Exception {
+    void canCheckedOutBooks() throws BookAlreadyCheckoutException, Exception {
         List<Book> books = Lists.newArrayList();
         User user = mock(User.class);
         when(bookService.checkOut(anyList(), any())).thenReturn(books);
@@ -147,7 +148,7 @@ class BooksControllerTest extends ControllerTestHelper {
         List<Book> books = Lists.newArrayList();
         User user = mock(User.class);
         user.setCheckoutBooks(books);
-        when(bookService.checkOut(anyList(), any())).thenThrow(Exception.class);
+        when(bookService.checkOut(anyList(), any())).thenThrow(BookAlreadyCheckoutException.class);
 
         mockMvc.perform(post("/checkout").with(user("user")))
                 .andExpect(status().is3xxRedirection())

@@ -1,5 +1,6 @@
 package com.tw.vapsi.biblioteca.service;
 
+import com.tw.vapsi.biblioteca.exceptions.BookAlreadyCheckoutException;
 import com.tw.vapsi.biblioteca.exceptions.BooksNotReturnedException;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
@@ -38,12 +39,12 @@ public class BookService {
     }
 
 
-    public List<Book> checkOut(List<Book> checkoutBooks, String email) throws Exception {
+    public List<Book> checkOut(List<Book> checkoutBooks, String email) throws BookAlreadyCheckoutException {
         User user = userRepository.findByEmail(email).get();
         List<Book> userCheckoutBooks= user.getCheckoutBooks();
         for(Book book: checkoutBooks){
             if(userCheckoutBooks.contains(book)){
-                throw new Exception("You have already checkout the book: "+ book.getBookName());
+                throw new BookAlreadyCheckoutException("You have already checkout the book: "+ book.getBookName());
             }
             book.decrementCopies();
             user.addCheckoutBook(book);

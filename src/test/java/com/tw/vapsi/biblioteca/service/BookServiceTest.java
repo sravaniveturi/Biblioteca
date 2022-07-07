@@ -1,5 +1,6 @@
 package com.tw.vapsi.biblioteca.service;
 
+import com.tw.vapsi.biblioteca.exceptions.BookAlreadyCheckoutException;
 import com.tw.vapsi.biblioteca.exceptions.BooksNotReturnedException;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
@@ -91,7 +92,7 @@ class BookServiceTest {
     }
 
     @Test
-    void shouldCheckoutBooks() throws Exception {
+    void shouldCheckoutBooks() throws BookAlreadyCheckoutException {
         User user = mock(User.class);
         List<Book> checkoutBooks = Arrays.asList(new Book());
         when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
@@ -102,13 +103,13 @@ class BookServiceTest {
     }
 
     @Test
-    void cannotCheckoutAlreadyCheckoutBooks() throws Exception {
+    void cannotCheckoutAlreadyCheckoutBooks() throws BookAlreadyCheckoutException {
         User user = mock(User.class);
         List<Book> checkoutBooks = Arrays.asList(new Book());
         when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
         when(user.getCheckoutBooks()).thenReturn(checkoutBooks);
 
-        assertThrows(Exception.class, ()->bookService.checkOut(checkoutBooks, user.getEmail()));
+        assertThrows(BookAlreadyCheckoutException.class, ()->bookService.checkOut(checkoutBooks, user.getEmail()));
     }
 
 

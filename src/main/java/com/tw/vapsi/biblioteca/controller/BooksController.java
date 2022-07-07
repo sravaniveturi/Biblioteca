@@ -1,5 +1,6 @@
 package com.tw.vapsi.biblioteca.controller;
 
+import com.tw.vapsi.biblioteca.exceptions.BookAlreadyCheckoutException;
 import com.tw.vapsi.biblioteca.exceptions.BooksNotReturnedException;
 import com.tw.vapsi.biblioteca.model.Book;
 import com.tw.vapsi.biblioteca.model.User;
@@ -61,7 +62,7 @@ public class BooksController {
             redirectAttrs.addFlashAttribute("message","Checkout books was Successful");
             mav = new ModelAndView("redirect:/viewCheckout");
 
-        } catch (Exception e) {
+        } catch (BookAlreadyCheckoutException e) {
             redirectAttrs.addFlashAttribute("message",e.getMessage());
             mav = new ModelAndView("redirect:/books");
 
