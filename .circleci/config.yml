@@ -11,10 +11,10 @@ workflows:
            requires:
             - test
       - hold:
-        type: approval
-        requires:
-            - test
+           type: approval
       - deployToProd:
+           requires:
+            - test
             - hold
 
 jobs:
