@@ -129,9 +129,8 @@ class BooksControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void canCheckedOutBooks() throws BookAlreadyCheckoutException, Exception {
-        List<Book> books = Lists.newArrayList();
-        User user = mock(User.class);
+    void shouldCheckedOutBooks() throws BookAlreadyCheckoutException, Exception {
+
         when(bookService.checkOut(anyList(), any())).thenReturn(books);
 
         mockMvc.perform(post("/checkout").with(user("user")))
@@ -144,8 +143,8 @@ class BooksControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void cannotCheckOutBooksAlreadyCheckedOut() throws Exception {
-        List<Book> books = Lists.newArrayList();
+    void shouldThrowExceptionWhenBookAlreadyCheckedOut() throws Exception {
+
         User user = mock(User.class);
         user.setCheckoutBooks(books);
         when(bookService.checkOut(anyList(), any())).thenThrow(BookAlreadyCheckoutException.class);
@@ -170,7 +169,7 @@ class BooksControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void shouldReturnNoBooksForUserWithNoCheckOutBooks() throws Exception {
+    void shouldReturnErrorForUserWithNoCheckOutBooks() throws Exception {
         User user = mock(User.class);
         List<Book> books = Lists.newArrayList();
         when(userService.getCheckOutBooks(any())).thenReturn(books);
@@ -178,8 +177,8 @@ class BooksControllerTest extends ControllerTestHelper {
         mockMvc.perform(get("/viewCheckout").with(user("user")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("viewcheckoutbooks"))
-                .andExpect(model().attributeExists("errorMessage"));
-
+                .andExpect(model().attributeExists("errorMessage"))
+                .andExpect(model().attribute("errorMessage", "No books checked out by the customer."));
     }
 
     @Test
