@@ -8,10 +8,17 @@
         </div>
     </nav>
     <nav class="navbar navbar-dark bg-light bg-gradient" sec:authorize="isAuthenticated()">
-        <div class="container d-flex justify-content-start ps-0">
-            <a class="nav-link text-dark" href="#" th:href="@{/home}">Home</a>
-            <a class="nav-link text-dark" href="#" th:href="@{/books}">View Books</a>
-            <a class="nav-link text-dark" href="#" th:href="@{/viewCheckout}">Return Books</a>
+        <div class=" d-flex container ps-0">
+            <div class="d-flex justify-content-start ps-0">
+                <a class="nav-link text-dark" href="#" th:href="@{/home}">Home</a>
+                <a class="nav-link text-dark" href="#" th:href="@{/books}">View Books</a>
+                <a class="nav-link text-dark" href="#" th:href="@{/viewCheckout}">Return Books</a>
+            </div>
+            <div class="justify-content-end ps-0">
+                <a sec:authorize="isAuthenticated()" class="nav-link text-dark" href="#"
+                   th:text="${#authentication.getPrincipal().getUsername()}"></a>
+            </div>
         </div>
+
     </nav>
 </header>

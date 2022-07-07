@@ -6,23 +6,35 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<header th:insert="header.html :: header"> </header>
-<div class="container mt-5">
-    <h2 align="center">Your Checkout Books</h2>
+<script type="text/javascript">
+    function btnClick(){
+        var checkboxes = document.querySelectorAll("#mytable :checked").length;
+        if(checkboxes == 0){
+        alert("Please select a book to return.");
+        return false;
+        }
+    };
 
-    <div align="right">
-        <form method="get" th:action="@{/books}">
-            <input name="name" placeholder="Find by Book or Author Name" size="30" th:value="${name}" type="text">
-            <button class="btn btn-primary" type="submit">Search</button>
-        </form>
+
+</script>
+
+<header th:insert="header.html :: header"></header>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between">
+        <h2>Your Checkout Books</h2>
+        <div>
+            <form method="get" th:action="@{/books}">
+                <input name="name" placeholder="Find by Book or Author Name" size="30" th:value="${name}" type="text">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>
     </div>
-</div>
     <div>
         <p style="color:green" th:text="${message}"></p>
     </div>
 
     <form method="POST" th:action="@{/return}" th:object="${user}">
-        <table class="table  table-bordered table-striped mt-1">
+        <table class="table  table-bordered table-striped mt-1" id="mytable">
             <thead th:if="${not #lists.isEmpty(books)}">
             <tr>
                 <th>Book Name</th>
@@ -44,13 +56,13 @@
             </tbody>
         </table>
         <div align="right" th:if="${not #lists.isEmpty(books)}">
-            <button class="btn btn-primary" type="submit">Return</button>
+            <button class="btn btn-primary" type="submit" onclick="return btnClick()">Return</button>
         </div>
     </form>
 
-        <div th:if="${#lists.isEmpty(books)}">
-            <p colspan="3" th:text="${errorMessage}">Sorry!No Books in library</p>
-        </div>
+    <div th:if="${#lists.isEmpty(books)}">
+        <p colspan="3" th:text="${errorMessage}">Sorry!No Books in library</p>
+    </div>
 
 </div>
 </body>
