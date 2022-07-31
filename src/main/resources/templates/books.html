@@ -6,9 +6,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<script type="text/javascript">
+<script >
     function btnClick(){
-        var checkboxes = document.querySelectorAll("#mytable :checked").length;
+        var checkboxes = $('#user.checkoutBooks :checkbox:checked').length
+        alert(checkboxes);
         if(checkboxes == 0){
         alert("Please select a book to checkout");
         return false;
